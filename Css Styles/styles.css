@@ -1,0 +1,260 @@
+/* LANDING PAGE STYLES */
+* {
+ box-sizing: border-box; 
+ margin: 0;
+ padding: 0;
+}
+ body { 
+    font-family: 'DM Sans', sans-serif;
+}
+h1, h2, h3 {
+ font-family: 'DM Serif Display', serif; 
+}
+.hero-orb {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(90px);
+      z-index: 0;
+    }
+
+
+
+    /* SIGN IN STYLES */
+        input:focus {
+            box-shadow: 0 0 0 4px rgba(26, 113, 232, 0.12);
+        }
+        
+        /* Password toggle cursor */
+        #showPassword {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        #showPassword:hover {
+            color: #1a71e8;
+            transform: scale(1.15);
+        }
+
+
+
+
+        /* LOGIN STYLES */
+        /* Floating orb animations */
+        @keyframes float-slow {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+            50% { transform: translate(-30px, -30px) scale(1.1); opacity: 1; }
+        }
+        @keyframes float-fast {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            50% { transform: translate(20px, 20px) scale(1.05); opacity: 0.9; }
+        }
+        .orb-1 {
+            animation: float-slow 10s ease-in-out infinite;
+        }
+        .orb-2 {
+            animation: float-fast 8s ease-in-out infinite;
+            animation-delay: -2s;
+        }
+        
+        /* Input focus enhancements */
+        input:focus {
+            box-shadow: 0 0 0 4px rgba(26, 113, 232, 0.12);
+        }
+        
+        /* Password toggle cursor */
+        #showPassword {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        #showPassword:hover {
+            color: #1a71e8;
+            transform: scale(1.15);
+        }
+
+        /* Checkbox styling */
+        input[type="checkbox"]:checked {
+            background-color: #1a71e8;
+            border-color: #1a71e8;
+        }
+
+
+
+
+
+        /* STUDENT DASHBOARD STYLES */
+        
+       /* Floating orb animations */
+        @keyframes float-slow {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+            50% { transform: translate(-30px, -30px) scale(1.1); opacity: 1; }
+        }
+        @keyframes float-fast {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            50% { transform: translate(20px, 20px) scale(1.05); opacity: 0.9; }
+        }
+        .orb-1 {
+            animation: float-slow 12s ease-in-out infinite;
+        }
+        .orb-2 {
+            animation: float-fast 10s ease-in-out infinite;
+            animation-delay: -3s;
+        }
+
+
+        /* Card hover effects */
+        .stat-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .dark .stat-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+        }
+
+    
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-count {
+            animation: countUp 0.6s ease-out forwards;
+        }
+
+        /* Dropdown menu */
+        #profile-dropdown {
+            transition: all 0.2s ease-in-out;
+            transform-origin: top right;
+        }
+        #profile-dropdown.hidden {
+            opacity: 0;
+            transform: scale(0.95) translateY(-10px);
+            pointer-events: none;
+        }
+
+        /* Action button hover */
+        .action-btn {
+            transition: all 0.3s ease;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(26, 113, 232, 0.3);
+        }
+
+
+
+
+
+
+        /* AVAILABLE EXAMS STYLES */
+       /* Card hover animation */
+        .exam-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .exam-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .dark .exam-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* spinner */
+        .spinner {
+            border: 3px solid rgba(26, 113, 232, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid #1a71e8;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* animation for cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        span:hover {
+  background-color: rgba(46, 143, 247, 0.1);
+}
+
+
+
+
+/* EXAM PAGE STYLEs */
+ /* Answer option states */
+        .answer-option {
+            transition: border-color 0.15s ease, background-color 0.15s ease;
+        }
+        .answer-option:hover {
+            border-color: #1a71e8;
+            background-color: #eef6ff;
+        }
+        .dark .answer-option:hover {
+            border-color: #5aaeff;
+            background-color: rgba(26, 113, 232, 0.1);
+        }
+        .answer-option.selected {
+            border-color: #1a71e8;
+            background-color: #d9ebff;
+        }
+        .dark .answer-option.selected {
+            border-color: #5aaeff;
+            background-color: rgba(26, 113, 232, 0.2);
+        }
+
+        /* Question nav button states */
+        .question-nav-btn {
+            transition: all 0.15s ease;
+        }
+        .question-nav-btn.active {
+            background-color: #1a71e8;
+            color: white;
+            font-weight: 600;
+        }
+        .question-nav-btn.answered {
+            background-color: #10b981;
+            color: white;
+        }
+        .question-nav-btn.flagged {
+            background-color: #f59e0b;
+            color: white;
+        }
+        .dark .question-nav-btn.active {
+            background-color: #5aaeff;
+        }
+    
+
+
+        /* Exam page style */
+        .nav-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 6px;
+    background: #eee;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-btn.active {
+    background: #2563eb;
+    color: white;
+}
+
+.nav-btn.answered {
+    background: #16a34a;
+    color: white;
+}

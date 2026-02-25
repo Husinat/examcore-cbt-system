@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExamCore Landing Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="Css Styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+    rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['DM Serif Display', 'Georgia', 'serif'],
+            sans: ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef6ff',
+              100: '#d9ebff',
+              200: '#bcddff',
+              300: '#8ec8ff',
+              400: '#5aaeff',
+              500: '#2e8ff7',
+              600: '#1a71e8',
+              700: '#1558ca',
+              800: '#1747a4',
+              900: '#193f82',
+              950: '#12274f',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="m-0 bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+
+
+
+  <!-- NAV BAR -->
+  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-sm border-b border-slate-200/60 dark:border-slate-800/60 transition-all duration-200">
+    <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+
+      <!-- Logo -->
+        <div  class="flex items-center gap-2">
+        <img class="w-[200px] pt-2" src="./Assets/images/ExamCore Logo.png" alt="">
+
+      </div>
+
+      <!-- Desktop nav links -->
+      <div class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600 dark:text-slate-400">
+        <a href="#features" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Features</a>
+        <a href="#how-it-works" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">How It Works</a>
+        <a href="#faq" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">FAQ</a>
+      </div>
+
+      <!-- Right side -->
+      <div class="flex items-center gap-2.5">
+        <!-- Theme toggle -->
+        <button id="theme-toggle" aria-label="Toggle theme"
+          class="w-9 h-9 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:border-brand-400 hover:text-brand-600 dark:hover:text-brand-400 transition-all">
+          <svg id="icon-sun" class="hidden w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg id="icon-moon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+          </svg>
+        </button>
+
+        <a href="./OtherPages/login.html" class="hidden md:inline-flex text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-300 transition-colors px-1">Login</a>
+
+        <a href="./OtherPages/signup.html" class="hidden md:inline-flex items-center gap-1.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors shadow-sm">
+          Get Started
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+
+        <!-- Mobile hamburger -->
+       <button id="mobile-toggle" class="md:hidden w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-all">
+                        <i class="fa-solid fa-bars text-lg" id="hamburger-icon"></i>
+                        <i class="fa-solid fa-xmark text-lg hidden" id="close-icon"></i>
+                    </button>
+        
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-slate-50/95 dark:bg-slate-950/95 px-5 py-4 space-y-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+      <a href="#features" class="block hover:text-brand-600 dark:hover:text-brand-400">Features</a>
+      <a href="#how-it-works" class="block hover:text-brand-600 dark:hover:text-brand-400">How It Works</a>
+      <a href="#faq" class="block hover:text-brand-600 dark:hover:text-brand-400">FAQ</a>
+      <div class="flex gap-3 pt-2 border-t border-slate-200 dark:border-slate-800">
+        <a href="./OtherPages/login.html" class="flex-1 text-center py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg hover:border-brand-400 transition-colors">Login</a>
+        <a href="./OtherPages/signup.html" class="flex-1 text-center py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-lg transition-colors">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+
+
+
+
+  <!-- HERO SECTION -->
+  <section class="relative overflow-hidden pt-28 pb-20 md:pt-36 md:pb-28">
+    <div class="hero-orb w-[28rem] h-[28rem] bg-brand-400/20 dark:bg-brand-600/15 top-[-8rem] right-[-6rem]"></div>
+    <div class="hero-orb w-72 h-72 bg-brand-300/15 dark:bg-brand-500/10 bottom-0 left-[-4rem]"></div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-5 text-center">
+      <span
+        class="inline-flex items-center gap-1.5 bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800 text-brand-700 dark:text-brand-300 text-xs font-medium px-3 py-1 rounded-full mb-7">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse"></span>
+        CBT Simulation Platform
+      </span>
+
+      <h1
+        class="text-4xl sm:text-5xl md:text-6xl lg:text-[4.2rem] font-serif text-slate-900 dark:text-white leading-[1.12] mb-6">
+        Practice Smarter.<br />
+        <span class="text-brand-600 dark:text-brand-400">Perform Better.</span>
+      </h1>
+    </div>
+
+
+
+    <!-- Typewriter Effect -->
+    <p class="text-base md:text-lg text-slate-500 dark:text-slate-400 mb-10 min-h-[1.75rem] text-center">
+      <span id="typewriter" class="cursor font-medium text-slate-700 dark:text-slate-200"></span>
+    </p>
+
+
+    <!-- CTA Buttons -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+      <a href="./OtherPages/signup.html"
+        class="w-[90%]  sm:w-auto flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-medium px-8 py-3.5 rounded-xl transition-colors shadow-md shadow-brand-900/20 text-sm">
+        Start Practicing
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
+      <a href="./OtherPages/login.html"
+        class="w-[90%] sm:w-auto flex items-center justify-center border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-brand-400 dark:hover:border-brand-500 hover:text-brand-700 dark:hover:text-brand-300 font-medium px-8 py-3.5 rounded-xl transition-colors bg-white dark:bg-slate-900 text-sm">
+        Login to account
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <p class="mt-7 text-xs text-slate-400 dark:text-slate-600 text-center">Free to try &middot; No credit card required
+      &middot; Realistic UTME-style questions</p>
+  </section>
+
+
+
+
+  <!-- FEATURES SECTION -->
+
+  <section id="features"
+    class="md:py-20 py-10 bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14">
+        <p class="text-xs font-semibold tracking-widest text-brand-600 dark:text-brand-400 uppercase mb-2">WHY EXAMCORE
+        </p>
+
+           <h2 class="text-2xl md:text-[2.4rem] text-slate-900 dark:text-white leading-snug">Everything You Need to Excel</h2>
+
+         <p class="mt-3 text-slate-500 dark:text-slate-400 max-w-lg mx-auto text-sm md:text-base">Built to replicate real examination conditions, so every practice session is meaningful.</p>
+      </div>
+
+
+
+
+      <!-- CARDS -->
+      <div class="grid md:grid-cols-3 gap-5">
+
+        <!-- 1st CARD -->
+        <div
+          class="feature-card bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-2xl p-7 hover:shadow-xl dark:hover:shadow-slate-900/60">
+          <div class="w-11 h-11 bg-brand-100 dark:bg-brand-900/50 rounded-xl flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-brand-600 dark:text-brand-400" fill="none" stroke="currentColor" stroke-width="2"
+              viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="16" rx="3" />
+              <path d="M9 9h6M9 13h4" />
+            </svg>
+          </div>
+          <h3 class="text-[1.05rem] text-slate-900 dark:text-white mb-2">Realistic Exam Interface</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Navigate question-by-question just like
+            the real CBT terminal. Flag questions, track time, and submit under authentic conditions.</p>
+
+        </div>
+
+
+        <!-- 2nd CARD -->
+        <div
+          class="feature-card bg-brand-600 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-2xl p-7 hover:shadow-xl dark:hover:shadow-slate-900/60">
+          <div class="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>
+          </div>
+          <h3 class="text-[1.05rem] text-white dark:text-white mb-2">Small Analytics & Insights</h3>
+          <p class="text-sm text-white dark:text-slate-400 leading-relaxed">Navigate question-by-question just like the
+            real CBT terminal. Flag questions, track time, and submit under authentic conditions.</p>
+
+        </div>
+
+
+        <!-- 3rd CARD -->
+        <div
+          class="feature-card bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-2xl p-7 hover:shadow-xl dark:hover:shadow-slate-900/60">
+          <div class="w-11 h-11 bg-brand-100 dark:bg-brand-900/50 rounded-xl flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-brand-600 dark:text-brand-400" fill="none" stroke="currentColor" stroke-width="2"
+              viewBox="0 0 24 24">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <h3 class="text-[1.05rem] text-slate-900 dark:text-white mb-2">Secure &amp; Timed Testing</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Sessions are timed to match real exam
+            durations. Your data is encrypted and progress is saved securely in the cloud.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+             <!-- GETTING STARTED SECTION -->
+  <section id="how-it-works"
+    class="py-20 bg-slate-50 dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
+    <div class="text-center mb-14">
+      <p class="text-xs font-semibold tracking-widest text-brand-600 dark:text-brand-400 uppercase mb-2">Getting Started
+      </p>
+
+       <h2 class="text-2xl md:text-[2.4rem] text-slate-900 dark:text-white leading-snug">Up and Running in Minutes</h2>
+    </div>
+
+
+    <!-- STEPS -->
+    <div class="max-w-6xl mx-auto px-5 flex flex-col md:flex-row gap-10 md:gap-5">
+
+      <!-- step 1 -->
+      <div class="flex flex-col items-center text-center px-4">
+        <div
+          class="w-14 h-14 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-xl font-serif shadow-md shadow-brand-900/25 mb-5">
+          1</div>
+        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100 mb-2">Create Account</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 max-w-[200px]">Sign up in under a minute. No credit card
+          required to begin.</p>
+      </div>
+
+      <!-- Connector line -->
+      <div class="hidden md:block flex-1 h-px bg-gradient-to-r from-brand-300/30 to-brand-500/30 self-start mt-7"></div>
+
+      <!-- step 2 -->
+      <div class="flex-1 flex flex-col items-center text-center px-4">
+        <div
+          class="w-14 h-14 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-xl font-serif shadow-md shadow-brand-900/25 mb-5">
+          2</div>
+        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100 mb-2">Choose Exam</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 max-w-[200px]">Select your subject combination from
+          multiple question banks.</p>
+      </div>
+
+      <!-- Connector line -->
+      <div class="hidden md:block flex-1 h-px bg-gradient-to-r from-brand-300/30 to-brand-500/30 self-start mt-7"></div>
+
+      <!-- step 3 -->
+      <div class="flex-1 flex flex-col items-center text-center px-4">
+        <div
+          class="w-14 h-14 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-xl font-serif shadow-md shadow-brand-900/25 mb-5">
+          3</div>
+        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100 mb-2">Take Test &amp; Get Results</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 max-w-[200px]">Complete the timed mock and receive an
+          instant performance report.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+
+
+
+
+
+                      <!-- FAQ SECTION -->
+  <section id="faq" class="md:py-20 py-10 bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
+
+    <div class="max-w-2xl mx-auto px-5">
+      <div class="text-center mb-12">
+        <p class="text-xs font-semibold tracking-widest text-brand-600 dark:text-brand-400 uppercase mb-2">Questions</p>
+        <h2 class="text-3xl md:text-[2.4rem] text-slate-900 dark:text-white leading-snug">Frequently Asked</h2>
+      </div>
+
+
+
+
+    <!-- FAQ Accordion -->
+      <div class="space-y-3">
+
+        <div class="faq-item border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+          <button class="faq-btn w-full flex items-center justify-between px-5 py-4 text-left text-sm font-medium text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors gap-4">
+            <span>Is ExamCore affiliated with any official exam body?</span>
+            <svg class="faq-icon w-4 h-4 shrink-0 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        <div class="faq-answer overflow-hidden transition-all duration-300 max-h-0 bg-white dark:bg-slate-900">
+            <p class="px-5 pt-3 pb-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">No. ExamCore is an independent practice platform and is not affiliated with, endorsed by, or connected to JAMB, WAEC, NECO, or any other official examination body. It is designed purely for self-study and mock exam simulation.</p>
+          </div>
+        </div>
+
+        <div class="faq-item border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+          <button class="faq-btn w-full flex items-center justify-between px-5 py-4 text-left text-sm font-medium text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors gap-4">
+            <span>Can I retake exams as many times as I like?</span>
+            <svg class="faq-icon w-4 h-4 shrink-0 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+       <div class="faq-answer overflow-hidden transition-all duration-300 max-h-0 bg-white dark:bg-slate-900">
+            <p class="px-5 pt-3 pb-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Yes. You can retake any available exam set as many times as needed. Questions are randomised on each attempt to prevent memorisation and ensure genuine practice.</p>
+          </div>
+        </div>
+
+        <div class="faq-item border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+          <button class="faq-btn w-full flex items-center justify-between px-5 py-4 text-left text-sm font-medium text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors gap-4">
+            <span>Are my results and progress saved automatically?</span>
+            <svg class="faq-icon w-4 h-4 shrink-0 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer overflow-hidden transition-all duration-300 max-h-0 bg-white dark:bg-slate-900">
+            <p class="px-5 pt-3 pb-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Yes. Every completed session is stored securely in your dashboard. You can review past scores, compare attempts, and track your subject-level improvement over time.</p>
+          </div>
+        </div>
+
+        <div class="faq-item border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+          <button class="faq-btn w-full flex items-center justify-between px-5 py-4 text-left text-sm font-medium text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors gap-4">
+            <span>How is my personal data protected?</span>
+            <svg class="faq-icon w-4 h-4 shrink-0 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        <div class="faq-answer overflow-hidden transition-all duration-300 max-h-0 bg-white dark:bg-slate-900">
+            <p class="px-5 pt-3 pb-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">All data is encrypted in transit and at rest. We do not sell or share your information with third parties. You can request full deletion of your account and data at any time from your account settings.</p>
+          </div>
+        </div>
+
+      </div>
+
+
+    
+  </section>
+
+
+
+
+
+                     <!-- CTA SECTION -->
+   <section class="py-16 bg-brand-600 relative overflow-hidden">
+    <div class="max-w-3xl mx-auto px-5 text-center">
+      <h3 class="text-3xl md:text-4xl text-white mb-3">Ready to Start Practising?</h3>
+      <p class="text-brand-200 text-sm md:text-base mb-8 max-w-lg mx-auto">Join thousands of students who use ExamCore to build confidence and improve scores before exam day.</p>
+     <a href="./OtherPages/signup.html"><button
+        class="inline-flex items-center gap-2 bg-white hover:bg-brand-300 hover:text-white text-brand-600 text-sm font-semibold px-5 py-3 px-5 rounded-lg transition-colors shadow-sm">
+        Create free account
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </button></a>
+    </div>
+   </section>
+
+
+
+                       <!-- FOOTER -->
+   <footer class="bg-slate-900 dark:bg-slate-950 text-slate-400 py-14">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="grid sm:grid-cols-3 gap-20 mb-10">
+
+        <!-- Brand -->
+        <div class="sm:mt-[-30px]">
+          <img class="w-[150px]" src="./Assets/images/ExamCore Logo.png" alt="ExamCore Logo">
+          <p class="text-sm leading-relaxed sm:max-w-xs sm:mt-[-10px] mt-2   ">An independent CBT practice platform for students preparing for competitive examinations. Realistic. Timed. Insightful.</p>
+        </div>
+
+        <!-- Navigation -->
+        <div>
+          <p class="text-xs font-semibold tracking-widest text-slate-600 uppercase mb-4">Navigation</p>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
+            <li><a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a></li>
+            <li><a href="#faq" class="hover:text-white transition-colors">FAQ</a></li>
+            <li><a href="./OtherPages/login.html" class="hover:text-white transition-colors">Login</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal -->
+        <div>
+          <p class="text-xs font-semibold tracking-widest text-slate-600 uppercase mb-4">Legal</p>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+        <p>&copy; 2026 ExamCore. All rights reserved.</p>
+        <p class="text-slate-600">Not affiliated with any official examination body.</p>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="./Javascript(Functionality)/index.js"></script>
+</body>
+
+</html>

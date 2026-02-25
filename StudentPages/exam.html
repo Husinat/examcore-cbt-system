@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamCore - CBT Exam</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['DM Serif Display', 'Georgia', 'serif'],
+                        sans: ['DM Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef6ff',
+                            100: '#d9ebff',
+                            200: '#bcddff',
+                            300: '#8ec8ff',
+                            400: '#5aaeff',
+                            500: '#2e8ff7',
+                            600: '#1a71e8',
+                            700: '#1558ca',
+                            800: '#1747a4',
+                            900: '#193f82',
+                            950: '#12274f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'DM Serif Display', serif;
+        }
+    </style>
+</head>
+
+<body class="bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100">
+
+    <!-- Top Navbar -->
+    <nav class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 py-2">
+        <div class="max-w-[1400px] mx-auto px-10 sm:px-6 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="./../index.html">
+                <div class="flex items-center gap-2">
+                    <img class=" w-[200px]" src="./../Assets/images/ExamCore Logo.png" alt="ExamCore">
+                </div>
+            </a>
+
+
+            <!-- Right Controls -->
+            <div class="flex items-center gap-3">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" aria-label="Toggle dark mode"
+                    class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:border-brand-400 dark:hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400 transition-all shadow-sm hover:shadow-md">
+                    <svg id="icon-sun" class="hidden w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                        stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5" />
+                        <path
+                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
+                    <svg id="icon-moon" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
+                    </svg>
+                </button>
+
+                <!-- User Avatar -->
+                <div id="user-avatar"
+                    class="w-9 h-9 rounded-full bg-brand-600 dark:bg-brand-500 flex items-center justify-center text-white text-sm font-semibold">
+                    JD
+                </div>
+
+                <!-- Exit Button -->
+                <button id="exit-exam-btn"
+                    class="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span class="hidden sm:inline">Exit Exam</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+    <!-- Exam Info Bar -->
+    <div class="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+            <!-- Exam Title -->
+            <div>
+                <h1 class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">UTME Practice Test</h1>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Mixed</p>
+            </div>
+
+            <!-- Timer -->
+            <div
+                class="flex items-center gap-2 bg-[#16a34a] dark:bg-[#16a34a]  text-white dark:text-white px-4 py-2 rounded-lg border border-green-200 dark:border-slate-200">
+                <i class="fa-solid fa-clock"></i>
+                <span id="timer-display" class="text-lg font-bold font-mono">00:00</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-[1400px] mx-auto px-4 sm:px-6 py-6">
+        <div class="flex flex-col lg:flex-row gap-6">
+
+            <!-- Left Side - Question Area (70%) -->
+            <div class="flex-1 lg:w-[70%]">
+
+                <!-- Progress -->
+                <div class="mb-4 flex items-center justify-between">
+                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">
+                        Question <span id="current-question-number"
+                            class="text-brand-600 dark:text-brand-400 font-bold">1</span> of <span id="total-questions"
+                            class="font-bold">40</span>
+                    </p>
+                </div>
+
+                <!-- Question Card -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 relative dark:border-slate-800 rounded-xl p-6 mb-6"id="question-container">
+                    <div id="loading-spinner" class="flex justify-center items-center py-20">
+    <div class="w-12 h-12 border-4 border-gray-300 dark:border-gray-600 border-t-brand-600  rounded-full animate-spin"></div>
+    <p class="absolute bottom-20">Loading Questions</p>
+</div>
+                    <div class="mb-6">
+                        <div id="question-type-badge"></div>
+                        <p id="question-text"></p>
+                    </div>
+
+                    <div id="answer-options-container" class="space-y-3"></div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <button id="prev-btn"
+                        class="flex items-center gap-2 px-5 py-2.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium rounded-lg transition-colors">
+                        <i class="fa-solid fa-chevron-left text-sm"></i>
+                        <span id="prev">Previous</span>
+                    </button>
+
+                    <button id="next-btn"
+                        class="flex-1 flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-lg transition-colors">
+                        <span>Next Question</span>
+                        <i class="fa-solid fa-chevron-right text-sm"></i>
+                    </button>
+
+                    <button id="submit-exam-btn"
+                        class="flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Submit</span>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Right Side - Question Navigation Grid (30%) -->
+            <aside class="lg:w-[30%]">
+                <div
+                    class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 lg:sticky lg:top-24">
+                    <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-4">Question Navigator</h3>
+
+                    <!-- Legend -->
+                    <div class="mb-4 pb-4 border-b border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+                        <div class="flex items-center gap-2">
+                            <div class="w-6 h-6 bg-brand-600 rounded"></div>
+                            <span class="text-slate-600 dark:text-slate-400">Current</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-6 h-6 bg-green-600 rounded"></div>
+                            <span class="text-slate-600 dark:text-slate-400">Answered</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-2">
+                            <div class="w-6 h-6 border-2 border-slate-300 dark:border-slate-700 rounded"></div>
+                            <span class="text-slate-600 dark:text-slate-400">Unanswered</span>
+                        </div>
+                    </div>
+
+                    <!-- Question Grid -->
+                    <div id="question-nav-grid" class="grid grid-cols-5 gap-2">
+                        <!-- Button 1 (Active) -->
+                       
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+
+        <div id="display"></div>
+        </main>
+
+    <script type="module" src="./../Javascript(Functionality)/exam.js">
+    </script>
+
+</body>
+
+</html>
