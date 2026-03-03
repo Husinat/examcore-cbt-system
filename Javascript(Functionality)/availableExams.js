@@ -113,43 +113,45 @@ function createExamCard(exam, index) {
                 <!-- Card content -->
                 <div class="p-6 sm:p-8">
                     
-                    <!-- Header with icon and duration badge -->
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center shadow-lg shadow-brand-900/20">
-                            <i class="fa-solid fa-graduation-cap text-2xl text-white"></i>
-                        </div>
-                      <span class="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold bg-brand-100 dark:bg-brand-900/30 text-brand-700 dark:text-brand-400 rounded-full">
-                        <!-- Clock SVG -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                         ${exam.duration || 'N/A'} min
-                        </span>
-                    </div>
+           <!-- Header with icon and duration badge -->
+     <div class="flex items-start justify-between mb-4">
+    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 dark:from-brand-600 dark:to-brand-700 flex items-center justify-center shadow-lg shadow-brand-900/20 dark:shadow-brand-950/50">
+        <i class="fa-solid fa-graduation-cap text-2xl text-white"></i>
+    </div>
+    <span class="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300 rounded-full border border-brand-200 dark:border-brand-800">
+        <!-- Clock SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 dark:text-brand-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        ${exam.duration || 'N/A'} min
+    </span>
+   </div>
 
                     <!-- Exam title -->
-                    <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+                    <h3 class="text-xl font-semibold text-slate-900 dark:text-black mb-2">
                         ${escapeHtml(exam.title || 'Untitled Exam')}
                     </h3>
 
                     <!-- Subject badge -->
                     <div class="mb-3 flex gap-10">
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-lg">
-                            <i class="fa-solid fa-book text-[10px]"></i>
-                            ${escapeHtml(exam.subject || 'General')}
-                        </span>
+                   <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-purple-100 dark:bg-brand-600 text-purple-700 dark:text-purple-300 rounded-lg border border-purple-200 dark:border-brand-800">
+    <i class="fa-solid fa-book text-[10px] dark:text-brand-100"></i>
+    ${escapeHtml(exam.subject || 'General')}
+</span>
 
-                        <span class="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold bg-brand-100 dark:bg-brand-900/30 text-brand-700 dark:text-brand-400 rounded-full">
-                    <!-- Question Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 14h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8 4.03-8 9-8 9 3.582 9 8z" />
-                    </svg>
-                    ${exam.totalQuestions || 'N/A'} Qs
-                    </span>
+
+
+<span class="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold bg-brand-100 dark:bg-brand-900/70 text-brand-700 dark:text-brand-200 rounded-full border border-brand-200 dark:border-brand-800">
+    <!-- Question Icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 dark:text-brand-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 14h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8 4.03-8 9-8 9 3.582 9 8z" />
+    </svg>
+    ${exam.totalQuestions || 'N/A'} Qs
+</span>
                     </div>
 
                     <!-- Description -->
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 line-clamp-2">
+                    <p class="text-sm text-slate-600 dark:text-slate-600 mb-6 line-clamp-2">
                         ${escapeHtml(exam.description || 'No description available.')}
                     </p>
 

@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-    <link rel="shortcut icon" href="./../Assets/images/ExamCore Logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="./../Assets/images/ExamCore imageLogo.png" type="image/x-icon">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -46,7 +46,6 @@
         }
     </style>
 </head>
-
 <body class="bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 min-h-screen relative overflow-x-hidden">
 
     <!-- Animated Background Orbs -->
@@ -56,7 +55,7 @@
     </div>
 
     <!-- Navbar -->
-    <nav class="relative z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+    <nav class="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="flex items-center justify-between h-16 sm:h-20">
@@ -86,13 +85,13 @@
                     </button>
 
                     <!-- Profile Dropdown (Hidden on Mobile) -->
-                    <div class="relative hidden md:block invisible" id="userInfoContainer">
+                    <div class="relative hidden md:block" id="userInfoContainer">
                         <button id="profile-btn" class="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition-all border border-slate-200 dark:border-slate-700">
                             <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white font-semibold text-sm" id="user-avatar">
-                                JD
+                                👤
                             </div>
                             <div class="hidden sm:block text-left">
-                                <p class="text-sm font-semibold text-slate-900 dark:text-white" id="user-name">John Doe</p>
+                                <p class="text-sm font-semibold text-slate-900 dark:text-white" id="user-name">Loading...</p>
                                 <p class="text-xs text-slate-500 dark:text-slate-400">Student</p>
                             </div>
                             <i id="chevdown" class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
@@ -101,10 +100,10 @@
                         <!-- Dropdown Menu -->
                         <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 py-2 z-50">
                             <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700">
-                                <p class="text-sm font-semibold text-slate-900 dark:text-white" id="dropdown-user-name">John Doe</p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400" id="dropdown-user-email">john.doe@example.com</p>
+                                <p class="text-sm font-semibold text-slate-900 dark:text-white" id="dropdown-user-name">Loading...</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400" id="dropdown-user-email">loading...</p>
                             </div>
-                            <a href="#" id="profile-link" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <a href="./updateProfile.html" id="profile-link" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                                 <i class="fa-solid fa-user w-4"></i>
                                 <span>My Profile</span>
                             </a>
@@ -127,19 +126,18 @@
             <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
                 <div class="px-4 py-4 space-y-3">
                     <!-- User Info -->
-                    <div class=" invisible flex items-center gap-3 pb-4 border-b border-slate-200 dark:border-slate-800" id="mobileMenu">
+                    <div class="flex items-center gap-3 pb-4 border-b border-slate-200 dark:border-slate-800" id="mobileMenu">
                         <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white font-semibold" id="mobile-user-avatar">
-                            
-                            JD
+                            👤
                         </div>
                         <div>
-                            <p class="text-sm font-semibold text-slate-900 dark:text-white" id="mobile-user-name">John Doe</p>
-                            <p class="text-xs text-slate-500 dark:text-slate-400" id="mobile-user-email">john.doe@example.com</p>
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white" id="mobile-user-name">Loading...</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400" id="mobile-user-email">loading...</p>
                         </div>
                     </div>
 
                     <!-- Mobile Navigation Links -->
-                    <a href="#" id="mobile-profile-link" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                    <a href="./updateProfile.html" id="mobile-profile-link" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
                         <i class="fa-solid fa-user w-4"></i>
                         <span>My Profile</span>
                     </a>
@@ -164,7 +162,7 @@
         <div class="mb-10 sm:mb-12">
             
             <h1 class="text-3xl sm:text-4xl md:text-5xl font-serif text-slate-900 dark:text-white mb-3">
-                Welcome back, <span id="welcome-name" class="text-brand-600 invisible dark:text-brand-400">Student</span>! 👋
+                Welcome <span id="welcome-name" class="text-brand-600 dark:text-brand-400">--</span>! 👋
             </h1>
             <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
                 Ready to ace your next exam? Let's continue your preparation journey.
@@ -181,7 +179,7 @@
                         <i class="fa-solid fa-clipboard-list text-2xl text-white"></i>
                     </div>
                 </div>
-                <p class="text-4xl invisible sm:text-5xl font-bold text-slate-900 dark:text-white mb-2 animate-count" id="totalExams">0</p>
+                <p class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-2 animate-count" id="totalExams">--</p>
                 <p class="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium">Available Exams</p>
                 <p class="text-slate-400 text-[12px] pt-2">More Exams on the way....</p>
             </div>
@@ -193,7 +191,7 @@
                         <i class="fa-solid fa-file-circle-check text-2xl text-white"></i>
                     </div>
                 </div>
-                <p class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-2 invisible animate-count" id="examsTaken">0</p>
+                <p class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-2" id="examsTaken">--</p>
                 <p class="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium" >Exams Completed</p>
             </div>
 
@@ -204,9 +202,7 @@
                         <i class="fa-solid fa-chart-line text-2xl text-white"></i>
                     </div>
                 </div>
-                <p class="text-4xl invisible sm:text-5xl font-bold text-slate-900 dark:text-white mb-2 animate-count" id="averageScore">
-                    <span>0</span><span class="text-2xl">%</span>
-                </p>
+                <p class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-2" id="averageScore">--</p>
                 <p class="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium">Average Score</p>
             </div>
 
@@ -217,9 +213,7 @@
                         <i class="fa-solid fa-trophy text-2xl text-white"></i>
                     </div>
                 </div>
-                <p class="text-4xl invisible sm:text-5xl font-bold text-slate-900 dark:text-white mb-2 animate-count"  id="lastScore">
-                    <span>0</span><span class="text-2xl">%</span>
-                </p>
+                <p class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-2" id="lastScore">--</p>
                 <p class="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium">Last Exam Score</p>
             </div>
 

@@ -140,10 +140,18 @@ h1, h2, h3 {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px -5px rgba(26, 113, 232, 0.3);
         }
+            .stat-card p, #welcome-name, #user-name, #mobile-user-name, #dropdown-user-name, #dropdown-user-email {
+            transition: opacity 0.3s ease;
+        }
 
 
 
 
+
+
+
+
+        
 
 
         /* AVAILABLE EXAMS STYLES */
@@ -239,6 +247,12 @@ h1, h2, h3 {
     
 
 
+
+
+
+
+
+
         /* Exam page style */
         .nav-btn {
     width: 35px;
@@ -258,3 +272,126 @@ h1, h2, h3 {
     background: #16a34a;
     color: white;
 }
+
+
+
+
+
+
+
+
+
+/* RESULT PAGE STYLES */
+
+        /* Circular progress animation */
+        @keyframes fillProgress {
+            from { stroke-dashoffset: 339; }
+            to { stroke-dashoffset: var(--progress-offset); }
+        }
+        .progress-ring {
+            animation: fillProgress 1.5s ease-out forwards;
+        }
+
+        /* Score pop-in animation */
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .score-animate {
+            animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        /* Fade in cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in-card {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        .fade-in-card:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in-card:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in-card:nth-child(3) { animation-delay: 0.3s; }
+
+
+
+
+
+
+
+
+
+
+
+
+        /* UPDATE PROFILE STYLES */
+         /* Button loading spinner */
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 2px solid white;
+            width: 16px;
+            height: 16px;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+
+
+
+
+
+
+        /* ADMIN DASHBOARD STYLES */
+    /* Sidebar transition */
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Stat card animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .stat-card {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        /* Fix for mobile tables */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+        }
+        
+        /* Fix for flex children */
+        .flex-1 {
+            min-width: 0;
+            width: 100%;
+        }
+        
+        /* Main content container fix */
+        main {
+            width: 100%;
+            overflow-x: hidden;
+        }

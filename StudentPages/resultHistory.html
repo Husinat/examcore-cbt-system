@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamCore - Result History</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+     <link rel="shortcut icon" href="./../Assets/images/ExamCore imageLogo.png" type="image/x-icon">
+    <script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                fontFamily: {
+                    serif: ['DM Serif Display', 'Georgia', 'serif'],
+                    sans: ['DM Sans', 'sans-serif'],
+                },
+                colors: {
+                    brand: {
+                        50: '#eef6ff',
+                        100: '#d9ebff',
+                        200: '#bcddff',
+                        300: '#8ec8ff',
+                        400: '#5aaeff',
+                        500: '#2e8ff7',
+                        600: '#1a71e8',
+                        700: '#1558ca',
+                        800: '#1747a4',
+                        900: '#193f82',
+                        950: '#12274f',
+                    }
+                }
+            }
+        }
+    }
+</script>
+
+
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        h1,h2,h3,h4 { font-family: 'DM Serif Display', serif; }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 py-2">
+        <div class="max-w-[1400px] mx-auto px-10 sm:px-6 h-16 flex items-center justify-between">
+            <a href="./../index.html">
+                <div class="flex items-center gap-2">
+                    <img class="w-[200px]" src="./../Assets/images/ExamCore Logo.png" alt="ExamCore">
+                </div>
+            </a>
+            <div class="flex items-center gap-3">
+                <button id="theme-toggle" aria-label="Toggle dark mode"
+                    class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:border-brand-400 dark:hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400 transition-all shadow-sm hover:shadow-md">
+                    <svg id="icon-sun" class="hidden w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                    <svg id="icon-moon" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+                    </svg>
+                </button>
+
+                <div id="user-avatar"
+                    class="w-9 h-9 rounded-full bg-brand-600 dark:bg-brand-500 flex items-center justify-center text-white text-sm font-semibold">
+                    --
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <h1 class="text-3xl sm:text-4xl font-serif text-slate-900 dark:text-white mb-6">Your Exam Results</h1>
+
+        <!-- Loading State -->
+        <div id="loading-state" class="flex flex-col items-center justify-center py-20">
+            <div class="w-12 h-12 border-4 border-slate-300 dark:border-slate-700 border-t-brand-600 rounded-full animate-spin mb-4"></div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm">Loading your results...</p>
+        </div>
+
+        <!-- Results List -->
+        <div id="results-list" class="hidden space-y-4">
+            <!-- Each exam result will be rendered here by JS -->
+        </div>
+
+
+
+
+
+
+        <!-- Pagination Controls -->
+        <div id="results-container" class="space-y-4"></div>
+
+<div id="pagination-controls" class="flex items-center justify-center gap-4 mt-8">
+    <button id="prev-page"
+        class="px-4 py-2 bg-slate-200 dark:bg-slate-700 rounded-lg disabled:opacity-50">
+        Prev
+    </button>
+
+    <span id="page-info"
+        class="text-slate-800 dark:text-slate-200 font-semibold">
+        Page 1 of 1
+    </span>
+
+    <button id="next-page"
+        class="px-4 py-2 bg-slate-200 dark:bg-slate-700 rounded-lg disabled:opacity-50">
+        Next
+    </button>
+</div>
+    </main>
+
+    <footer class="relative z-10 mt-16 py-8 border-t border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-xs sm:text-sm text-slate-500 dark:text-slate-600">
+                &copy; 2026 ExamCore. All rights reserved. | Not affiliated with any official examination body.
+            </p>
+        </div>
+    </footer>
+
+   <script type="module" src="./../Javascript(Functionality)/resultHistory.js"></script>
+   <a href=""></a>
+</body>
+</html>

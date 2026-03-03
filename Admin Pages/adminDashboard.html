@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>ExamCore - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+     <link rel="shortcut icon" href="./../Assets/images/ExamCore imageLogo.png" type="image/x-icon">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['DM Serif Display', 'Georgia', 'serif'],
+                        sans: ['DM Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef6ff',
+                            100: '#d9ebff',
+                            200: '#bcddff',
+                            300: '#8ec8ff',
+                            400: '#5aaeff',
+                            500: '#2e8ff7',
+                            600: '#1a71e8',
+                            700: '#1558ca',
+                            800: '#1747a4',
+                            900: '#193f82',
+                            950: '#12274f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'DM Serif Display', serif;
+        }
+
+        * {
+            max-width: 100vw;
+            box-sizing: border-box;
+        }
+        
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100">
+
+    <!-- Background Orbs -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden">
+        <div class="absolute -top-20 -right-20 w-[32rem] h-[32rem] bg-brand-400/10 dark:bg-brand-600/5 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-brand-300/10 dark:bg-brand-500/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 flex min-h-screen w-full overflow-hidden">
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transform -translate-x-full lg:translate-x-0 transition-transform shadow-xl lg:shadow-none">
+            
+            <!-- Logo Section -->
+            <div class="h-20 flex items-center justify-between px-6 border-b border-slate-200 dark:border-slate-800">
+                 <a href="./../index.html"><img class="w-32 sm:w-[180px]" src="./../Assets/images/ExamCore Logo.png" alt="ExamCore Logo"></a>
+
+                <button id="close-sidebar" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 px-4 py-6 space-y-1">
+                <a href="#" id="nav-dashboard" class="nav-item active flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-900 dark:text-white bg-brand-50 dark:bg-brand-900/30 border border-brand-200 dark:border-brand-800 transition-all">
+                    <i class="fa-solid fa-chart-line w-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" id="nav-create-exam" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                    <i class="fa-solid fa-plus-circle w-5"></i>
+                    <span>Create Exam</span>
+                </a>
+                <a href="#" id="nav-manage-exams" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                    <i class="fa-solid fa-folder-open w-5"></i>
+                    <span>Manage Exams</span>
+                </a>
+                <a href="#" id="nav-view-results" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                    <i class="fa-solid fa-chart-bar w-5"></i>
+                    <span>View Results</span>
+                </a>
+                <a href="#" id="nav-manage-users" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                    <i class="fa-solid fa-users w-5"></i>
+                    <span>Manage Users</span>
+                </a>
+
+                <!-- Divider -->
+                <div class="border-t border-slate-200 dark:border-slate-800 my-4"></div>
+
+                <a href="#" id="nav-logout" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all">
+                    <i class="fa-solid fa-right-from-bracket w-5"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+
+        </aside>
+
+        <!-- Sidebar Overlay (Mobile) -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden lg:hidden"></div>
+
+        <!-- Main Content -->
+        <div class="flex-1 lg:ml-64 w-full max-w-full overflow-hidden">
+
+            <!-- Top Navbar -->
+            <header class="sticky top-0 z-30 h-20 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+                <div class="h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between w-full">
+                    
+                    <!-- Left: Menu Button + Page Title -->
+                    <div class="flex items-center gap-4 flex-1 min-w-0">
+                        <button id="open-sidebar" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors flex-shrink-0">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <div class="block sm:hidden flex-shrink-0">
+                            <a href="./../index.html"><img class="w-32" src="./../Assets/images/ExamCore Logo.png" alt="ExamCore Logo"></a>
+                        </div>
+                        <div class="hidden sm:block min-w-0">
+                            <h2 class="text-lg font-semibold text-slate-900 dark:text-white truncate">Admin Dashboard</h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">System Overview</p>
+                        </div>
+                    </div>
+
+                    <!-- Right: Theme Toggle + Profile -->
+                    <div class="flex items-center gap-3 flex-shrink-0">
+                        
+                        <!-- Theme Toggle -->
+                        <button id="theme-toggle" aria-label="Toggle dark mode"
+                            class="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:border-brand-400 dark:hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400 transition-all flex-shrink-0">
+                            <svg id="icon-sun" class="hidden w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="5"/>
+                                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                            </svg>
+                            <svg id="icon-moon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+                            </svg>
+                        </button>
+
+                        <!-- Profile Dropdown -->
+                        <div class="relative">
+                            <button id="profile-btn" class="flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition-all border border-slate-200 dark:border-slate-700">
+                                <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0" id="admin-avatar">
+                                    👤
+                                </div>
+                                <div class="hidden sm:block text-left min-w-0">
+                                    <p class="text-sm font-semibold text-slate-900 dark:text-white truncate" id="admin-name">--</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 truncate">Administrator</p>
+                                </div>
+                                <i class="fa-solid fa-chevron-down text-xs text-slate-400 flex-shrink-0"></i>
+                            </button>
+
+                            <!-- Dropdown Menu -->
+                            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 py-2 z-50">
+                                <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                                    <i class="fa-solid fa-user w-4"></i>
+                                    <span>My Profile</span>
+                                </a>
+                                <p class="text-xs text-slate-500 pl-4 dark:text-slate-400" id="dropdown-admin-email">loading...</p>
+                                <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                                    <i class="fa-solid fa-gear w-4"></i>
+                                    <span>Settings</span>
+                                </a>
+                                <div class="border-t border-slate-200 dark:border-slate-700 my-2"></div>
+                                <button id="logout-btn" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                                    <i class="fa-solid fa-right-from-bracket w-4"></i>
+                                    <span>Logout</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <main class="p-4 sm:p-6 lg:p-8 w-full max-w-full overflow-x-hidden">
+
+                <!-- Page Header -->
+                <div class="mb-8">
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-slate-900 dark:text-white mb-2 break-words">
+                        Admin Dashboard
+                    </h1>
+                    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 break-words">
+                        Welcome to the ExamCore system control panel
+                    </p>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 mb-8 w-full">
+                    
+                    <!-- Total Students -->
+                    <div class="stat-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-md hover:shadow-lg transition-shadow w-full">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center">
+                                <i class="fa-solid fa-users text-xl sm:text-2xl text-brand-600 dark:text-brand-400"></i>
+                            </div>
+                        </div>
+                        <p class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-1 break-words" id="total-students">--</p>
+                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium break-words">Total Students</p>
+                    </div>
+
+                    <!-- Total Exams -->
+                    <div class="stat-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-md hover:shadow-lg transition-shadow w-full">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                                <i class="fa-solid fa-folder-open text-xl sm:text-2xl text-purple-600 dark:text-purple-400"></i>
+                            </div>
+                        </div>
+                        <p class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-1 break-words" id="total-exams">--</p>
+                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium break-words">Total Exams</p>
+                    </div>
+
+                    <!-- Total Submissions -->
+                    <div class="stat-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-md hover:shadow-lg transition-shadow w-full">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                                <i class="fa-solid fa-file-circle-check text-xl sm:text-2xl text-green-600 dark:text-green-400"></i>
+                            </div>
+                        </div>
+                        <p class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-1 break-words" id="total-submissions">--</p>
+                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium break-words">Total Submissions</p>
+                    </div>
+
+                    <!-- Average Score -->
+                    <div class="stat-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-md hover:shadow-lg transition-shadow w-full">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                                <i class="fa-solid fa-chart-line text-xl sm:text-2xl text-amber-600 dark:text-amber-400"></i>
+                            </div>
+                        </div>
+                        <p class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-1 break-words">
+                            <span id="average-score">--</span><span class="text-xl sm:text-2xl">%</span>
+                        </p>
+                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium break-words">Average Score</p>
+                    </div>
+
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl sm:rounded-3xl shadow-lg overflow-hidden w-full">
+                    
+                    <!-- Header -->
+                    <div class="px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                        <div class="min-w-0">
+                            <h2 class="text-lg sm:text-xl lg:text-2xl font-serif text-slate-900 dark:text-white break-words">Recent Submissions</h2>
+                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 break-words">Latest exam attempts from students</p>
+                        </div>
+                        <button class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-brand-600 dark:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-900/20 rounded-lg transition-colors whitespace-nowrap">
+                            View All
+                        </button>
+                    </div>
+
+                    <!-- Table Container with horizontal scroll -->
+                    <div class="table-container w-full">
+                        <table class="w-full min-w-[640px]">
+                            <thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                                <tr>
+                                    <th class="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Student Name</th>
+                                    <th class="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Exam</th>
+                                    <th class="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Score</th>
+                                    <th class="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Date</th>
+                                    <th class="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Action</th>
+                                </tr>
+                            </thead>
+                        <tbody id="submissions-table" class="bg-white dark:bg-slate-900 divide-y divide-slate-200 dark:divide-slate-800">
+                                <!-- Dynamic rows will be inserted here -->
+                            </tbody> 
+                        </table>
+                    </div>
+
+                </div>
+
+            </main>
+
+        </div>
+
+    </div>
+
+   
+    <script type="module" src="./../Javascript(Functionality)/adminDashboard.js"></script>
+
+</body>
+</html>

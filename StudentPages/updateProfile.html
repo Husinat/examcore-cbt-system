@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamCore - My Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+      <link rel="shortcut icon" href="./../Assets/images/ExamCore imageLogo.png" type="image/x-icon">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['DM Serif Display', 'Georgia', 'serif'],
+                        sans: ['DM Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef6ff',
+                            100: '#d9ebff',
+                            200: '#bcddff',
+                            300: '#8ec8ff',
+                            400: '#5aaeff',
+                            500: '#2e8ff7',
+                            600: '#1a71e8',
+                            700: '#1558ca',
+                            800: '#1747a4',
+                            900: '#193f82',
+                            950: '#12274f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'DM Serif Display', serif;
+        }
+
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 min-h-screen">
+
+    <!-- Background Orbs -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden">
+        <div class="absolute -top-20 -right-20 w-[32rem] h-[32rem] bg-brand-400/10 dark:bg-brand-600/5 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-brand-300/10 dark:bg-brand-500/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Navbar -->
+     <nav class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 py-2">
+         <div class="max-w-[1400px] mx-auto px-10 sm:px-6 h-16 flex items-center justify-between">
+            <!-- Logo -->
+          <a href="./../index.html"><div class="flex items-center gap-2">
+                <img class=" w-[200px]" src="./../Assets/images/ExamCore Logo.png" alt="ExamCore">
+            </div></a>
+
+                <!-- Right Side -->
+                <div class="flex items-center gap-3 sm:gap-4">
+                    
+                    <!-- Back to Dashboard -->
+                    <a href="./dashboard.html" class="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <!-- Theme Toggle -->
+                 <button id="theme-toggle" aria-label="Toggle dark mode"
+                        class="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:border-brand-400 dark:hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400 transition-all shadow-sm hover:shadow-md">
+                        <svg id="icon-sun" class="hidden w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="5"/>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                        </svg>
+                        <svg id="icon-moon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+                        </svg>
+                    </button>
+
+                    <!-- User Avatar -->
+                    <div id="user-avatar" class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white font-semibold text-sm" >
+                        --
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+        <!-- Page Header -->
+        <div class="mb-8">
+            <div class="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 mb-4">
+                <a href="./student-dashboard.html" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Dashboard</a>
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+                <span class="text-slate-900 dark:text-white font-medium">My Profile</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-serif text-slate-900 dark:text-white mb-2">
+                My Profile
+            </h1>
+            <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400">
+                Manage your account settings and preferences
+            </p>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-lg mb-6">
+            
+            <!-- Avatar Section -->
+            <div class="flex flex-col items-center mb-8 pb-8 border-b border-slate-200 dark:border-slate-800">
+                <div id="userName-avatar" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white text-4xl sm:text-5xl font-bold shadow-lg mb-4">
+                    --
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Student Account</p>
+            </div>
+
+            <!-- Profile Form -->
+            <form id="profile-form" class="space-y-6">
+
+                <!-- Full Name -->
+                <div>
+                    <label for="full-name" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                        Full Name
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-user text-slate-400 dark:text-slate-500"></i>
+                        </div>
+                        <input
+                            type="text"
+                            id="full-name"
+                            placeholder="Enter your full name"
+                            class="w-full pl-11 pr-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-100 dark:focus:ring-brand-900/30 transition-all"
+                        />
+                    </div>
+                </div>
+
+                <!-- Email (Read-only) -->
+                <div>
+                    <label for="email" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                        Email Address
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-envelope text-slate-400 dark:text-slate-500"></i>
+                        </div>
+                        <input type="email" id="email" disabled class="w-full pl-11 pr-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-not-allowed"/>
+                    </div>
+                    
+                    <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
+                        <i class="fa-solid fa-lock text-xs mr-1"></i>
+                        Email cannot be changed
+                    </p>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-slate-200 dark:border-slate-800 pt-6">
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Change Password</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Leave these fields empty if you don't want to change your password</p>
+                </div>
+
+          
+                 <!-- Current Password (for reauthentication) -->
+<div>
+    <label for="current-password" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+        Current Password
+    </label>
+    <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <i class="fa-solid fa-key text-slate-400 dark:text-slate-500"></i>
+        </div>
+        <input
+            type="password"
+            id="current-password"
+            placeholder="Enter your current password"
+            class="w-full pl-11 pr-12 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-100 dark:focus:ring-brand-900/30 transition-all"
+        />
+        <button type="button" id="toggle-current-password" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+            <i class="fa-solid fa-eye"></i>
+        </button>
+    </div>
+    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+        Required only if you want to change your password
+    </p>
+</div>
+
+
+
+
+
+                <!-- New Password -->
+                <div>
+                    <label for="new-password" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                        New Password
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-lock text-slate-400 dark:text-slate-500"></i>
+                        </div>
+                        <input
+                            type="password"
+                            id="new-password"
+                            placeholder="Enter new password (optional)"
+                            class="w-full pl-11 pr-12 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-100 dark:focus:ring-brand-900/30 transition-all"
+                        />
+                        <button type="button" id="toggle-new-password" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Confirm Password -->
+                <div>
+                    <label for="confirm-password" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                        Confirm New Password
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-lock text-slate-400 dark:text-slate-500"></i>
+                        </div>
+                        <input
+                            type="password"
+                            id="confirm-password"
+                            placeholder="Confirm new password"
+                            class="w-full pl-11 pr-12 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-100 dark:focus:ring-brand-900/30 transition-all"
+                        />
+                        <button type="button" id="toggle-confirm-password" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Save Button -->
+                <button
+                    type="submit"
+                    id="save-btn"
+                    class="w-full py-3.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 active:from-brand-800 active:to-brand-900 disabled:from-slate-300 disabled:to-slate-400 dark:disabled:from-slate-700 dark:disabled:to-slate-600 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                >
+                    <span id="save-btn-text">Save Changes</span>
+                    <i id="save-btn-icon" class="fa-solid fa-check"></i>
+                    <div id="save-btn-spinner" class="hidden spinner"></div>
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="bg-white dark:bg-slate-900 border-2 border-red-200 dark:border-red-900/50 rounded-3xl p-6 sm:p-8 shadow-lg">
+            <div class="flex items-start gap-4 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-triangle-exclamation text-red-600 dark:text-red-400"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-1">Danger Zone</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Actions in this section cannot be undone</p>
+                </div>
+            </div>
+            
+            <div class="border-t border-red-200 dark:border-red-900/50 pt-4">
+                <button
+                    type="button"
+                    id="logout-btn"
+                    class="w-full sm:w-auto px-6 py-3 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                >
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 mt-16 py-8 border-t border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-xs sm:text-sm text-slate-500 dark:text-slate-600">
+                &copy; 2026 ExamCore. All rights reserved. | Not affiliated with any official examination body.
+            </p>
+        </div>
+    </footer>
+
+
+
+
+<script type="module" src="./../Javascript(Functionality)/updateProfile.js"></script>
+</body>
+</html>
