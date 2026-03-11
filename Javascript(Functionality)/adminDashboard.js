@@ -1,4 +1,3 @@
-     // Dark mode toggle
  // Theme Switcher (Light and Dark Mode)
 let toggleBtn = document.getElementById('theme-toggle');
 
@@ -114,7 +113,7 @@ onAuthStateChanged(auth, async (user) => {
 
         if (userData.role !== "admin") {
             alert("Access denied. Admins only.");
-            window.location.href = "../StudentPages/dashboard.html";
+            window.location.href = "";
             return;
         }
 
@@ -246,6 +245,11 @@ updateElementText("mobile-admin-email", email);
 updateElementText("mobile-admin-avatar", initials);
 
     } catch (error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error verifying Admin...',
+            text: 'Failed to load recent submissions!',
+        });
         console.error("Error verifying admin:", error);
         // window.location.href = "../index.html";
     }
@@ -253,7 +257,7 @@ updateElementText("mobile-admin-avatar", initials);
     
 });
 
-// LOAD RECENT SUBMISSIONS
+// LOAD RECENT SUBMISSIONS (RESPONSIVE)
 async function loadRecentSubmissions(limit = 5) {
     try {
         const submissionsRef = collection(dataBase, "ExamResults");
@@ -264,7 +268,7 @@ async function loadRecentSubmissions(limit = 5) {
             submissions.push({ id: doc.id, ...doc.data() });
         });
 
-        // 🔥 Sort using Firestore timestamp properly
+        // Sort using Firestore timestamp properly
         submissions.sort((a, b) => {
             if (!a.timestamp || !b.timestamp) return 0;
             return b.timestamp.toDate() - a.timestamp.toDate();
@@ -275,14 +279,14 @@ async function loadRecentSubmissions(limit = 5) {
         const tbody = document.getElementById("submissions-table");
         tbody.innerHTML = "";
 
-        for (const sub of submissions) {
+        for (const [index, sub] of submissions.entries()) {
 
             // Get user directly using UID as document ID
             const userSnap = await getDoc(doc(dataBase, "users", sub.userId));
             const examSnap = await getDoc(doc(dataBase, "Exams", sub.examId));
 
-            const userName = userSnap.exists() ? userSnap.data().fullname : "--";
-            const examTitle = examSnap.exists() ? examSnap.data().title : "--";
+            const userName = userSnap.exists() ? userSnap.data().fullname : "Unknown Student";
+            const examTitle = examSnap.exists() ? examSnap.data().title : "Unknown Exam";
 
             
             let percentage = "--";
@@ -294,35 +298,66 @@ async function loadRecentSubmissions(limit = 5) {
 
                 if (calculated >= 75) {
                     scoreClass = "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400";
+                } else if (calculated >= 50) {
+                    scoreClass = "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400";
+                } else {
+                    scoreClass = "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400";
                 }
             }
 
           
             const formattedDate = sub.timestamp
-                ? sub.timestamp.toDate().toLocaleDateString()
+                ? sub.timestamp.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                 : "--";
 
             const row = document.createElement("tr");
             row.className = "hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors";
             row.innerHTML = `
-                <td class="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-slate-900 dark:text-white break-words">
-                    ${userName}
-                </td>
-                <td class="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-slate-600 dark:text-slate-400 break-words">
-                    ${examTitle}
-                </td>
-                <td class="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm">
-                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${scoreClass} whitespace-nowrap">
-                        ${percentage}
-                    </span>
-                </td>
-                <td class="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-slate-600 dark:text-slate-400 whitespace-nowrap">
-                    ${formattedDate}
-                </td>
-                <td class="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm">
-                    <button class="text-brand-600 dark:text-brand-400 hover:underline font-medium whitespace-nowrap">
-                        View Details
-                    </button>
+                <td class="px-4 sm:px-6 py-3 sm:py-4">
+                    <!-- MOBILE VIEW -->
+                    <div class="md:hidden space-y-2">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Submission #${index + 1}</p>
+                                <p class="font-semibold text-slate-900 dark:text-white mt-1">${userName}</p>
+                            </div>
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${scoreClass}">
+                                ${percentage}
+                            </span>
+                        </div>
+                        <div class="text-xs space-y-1">
+                            <p class="text-slate-600 dark:text-slate-400"><span class="font-medium">Exam:</span> ${examTitle}</p>
+                            <p class="text-slate-600 dark:text-slate-400"><span class="font-medium">Date:</span> ${formattedDate}</p>
+                        </div>
+                        <div class="pt-2">
+                            <button class="w-full py-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-lg transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- DESKTOP VIEW -->
+                    <div class="hidden md:grid md:grid-cols-5 gap-4 items-center">
+                        <div class="text-sm font-medium text-slate-900 dark:text-white">
+                            ${userName}
+                        </div>
+                        <div class="text-sm text-slate-600 dark:text-slate-400">
+                            ${examTitle}
+                        </div>
+                        <div>
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${scoreClass}">
+                                ${percentage}
+                            </span>
+                        </div>
+                        <div class="text-sm text-slate-600 dark:text-slate-400">
+                            ${formattedDate}
+                        </div>
+                        <div>
+                            <button class="text-brand-600 dark:text-brand-400 hover:underline font-medium text-sm">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
                 </td>
             `;
 
@@ -339,3 +374,36 @@ async function loadRecentSubmissions(limit = 5) {
     }
 }
 loadRecentSubmissions();
+
+
+
+
+
+// LOGOUT FUNCTIONALITY
+async function dashBoardLogOutBtn() {
+    try {
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#2e8ff7",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, log out",
+            cancelButtonText: "Cancel"
+        });
+        if (result.isConfirmed) {
+            await signOut(auth);
+            window.location.href = "../index.html";
+        }
+    } catch (err) { 
+    console.error(err);
+   Swal.fire({
+    icon:"error",
+    title:"Error",
+    text:"Failed to logout. Try again."
+}); 
+}}
+
+document.getElementById("nav-logout").addEventListener("click", dashBoardLogOutBtn);    
+document.getElementById("logout-btn").addEventListener("click", dashBoardLogOutBtn);

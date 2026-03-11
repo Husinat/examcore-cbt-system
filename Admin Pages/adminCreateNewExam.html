@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamCore - Create Exam</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['DM Serif Display', 'Georgia', 'serif'],
+                        sans: ['DM Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef6ff',
+                            100: '#d9ebff',
+                            200: '#bcddff',
+                            300: '#8ec8ff',
+                            400: '#5aaeff',
+                            500: '#2e8ff7',
+                            600: '#1a71e8',
+                            700: '#1558ca',
+                            800: '#1747a4',
+                            900: '#193f82',
+                            950: '#12274f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'DM Serif Display', serif;
+        }
+
+        /* Pulse animation for icon */
+        @keyframes pulse-slow {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 min-h-screen">
+
+    <!-- Background Orbs -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden">
+        <div class="absolute -top-20 -right-20 w-[32rem] h-[32rem] bg-brand-400/10 dark:bg-brand-600/5 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-brand-300/10 dark:bg-brand-500/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Top Navbar -->
+    <nav class="relative z-50 sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                
+                <!-- Logo -->
+              <a href="./../index.html"><img class="w-32 sm:w-[180px]" src="./../Assets/images/ExamCore Logo.png" alt="ExamCore Logo">
+            </a>
+
+                <!-- Right Side -->
+                <div class="flex items-center gap-2 sm:gap-4">
+                    
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" aria-label="Toggle dark mode"
+                        class="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:border-brand-400 dark:hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400 transition-all shadow-sm hover:shadow-md">
+                        <svg id="icon-sun" class="hidden w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="5"/>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                        </svg>
+                        <svg id="icon-moon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+                        </svg>
+                    </button>
+
+                    <!-- Admin Avatar -->
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white text-sm font-semibold" id="admin-avatar">
+                        👤
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative z-10 flex items-center justify-center min-h-[calc(100vh-5rem)] px-4 sm:px-6 lg:px-8 py-12">
+
+        <!-- Coming Soon Card -->
+        <div class="w-full max-w-2xl">
+            
+            <!-- Back Button -->
+            <a href="./adminDashboard.html" class="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors mb-6">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to Dashboard</span>
+            </a>
+
+            <!-- Main Card -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+                
+                <!-- Gradient Accent Bar -->
+                <div class="h-2 bg-gradient-to-r from-brand-500 via-purple-500 to-brand-600"></div>
+
+                <div class="p-8 sm:p-12 text-center">
+
+                    <!-- Icon -->
+                    <div class="mb-8">
+                        <div class="w-24 h-24 sm:w-32 sm:h-32 mx-auto rounded-full bg-gradient-to-br from-brand-100 to-purple-100 dark:from-brand-900/30 dark:to-purple-900/30 flex items-center justify-center animate-pulse-slow">
+                            <i class="fa-solid fa-flask text-5xl sm:text-6xl text-brand-600 dark:text-brand-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- Headline -->
+                    <h1 class="text-3xl sm:text-4xl lg:text-4xl font-serif text-slate-900 dark:text-white mb-4">
+                        More Exams will be added soon
+                    </h1>
+
+                    <!-- Subtext -->
+                    <!-- <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-lg mx-auto leading-relaxed">
+                        We're working hard to bring you more exams! Additional subjects, practice tests, and mock exams will be added as development continues. Stay tuned for updates.
+                    </p> -->
+
+                    <!-- Info Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+                        
+                        <!-- Feature 1 -->
+                        <!-- <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl p-4">
+                            <div class="w-10 h-10 rounded-lg bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center mx-auto mb-3">
+                                <i class="fa-solid fa-book-open text-lg text-brand-600 dark:text-brand-400"></i>
+                            </div>
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white mb-1">More Subjects</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">Additional topics coming</p>
+                        </div> -->
+
+                        <!-- Feature 2 -->
+                        <!-- <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl p-4">
+                            <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mx-auto mb-3">
+                                <i class="fa-solid fa-trophy text-lg text-purple-600 dark:text-purple-400"></i>
+                            </div>
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white mb-1">Mock Tests</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">Practice exams ahead</p>
+                        </div> -->
+
+                        <!-- Feature 3 -->
+                        <!-- <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl p-4">
+                            <div class="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center mx-auto mb-3">
+                                <i class="fa-solid fa-clock text-lg text-green-600 dark:text-green-400"></i>
+                            </div>
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white mb-1">Timed Tests</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">Real exam simulations</p>
+                        </div> -->
+
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        
+                        <!-- Primary Button -->
+                        <a href="./admin-dashboard.html" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-gauge-high"></i>
+                            <span>Go to Dashboard</span>
+                        </a>
+
+                        <!-- Secondary Button -->
+                        <a href="./adminManageExam.html" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-slate-300 dark:border-slate-700 hover:border-brand-400 dark:hover:border-brand-500 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-xl transition-all hover:bg-slate-50 dark:hover:bg-slate-700">
+                            <i class="fa-solid fa-list-check"></i>
+                            <span>View Existing Exams</span>
+                        </a>
+
+                    </div>
+
+                    <!-- Footer Note -->
+                    <div class="mt-10 pt-8 border-t border-slate-200 dark:border-slate-800">
+                        <p class="text-sm text-slate-500 dark:text-slate-400">
+                            <i class="fa-solid fa-circle-info mr-1"></i>
+                            Need help? Contact the development team for feature requests
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Firebase & Script -->
+    <script type="module" src="./../Javascript(Functionality)/adminCreateExam.js"></script>
+
+</body>
+</html>

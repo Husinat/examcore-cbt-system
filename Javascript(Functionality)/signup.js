@@ -102,7 +102,14 @@ signUpBtn.addEventListener('click', async (e) => {
             icon: "error"
         });
         return;
-    } 
+    } else if(userFullName.includes('@') || userFullName.includes('.') || userFullName.includes(',') || userFullName.includes('!') || userFullName.includes('#') || userFullName.includes('$') || userFullName.includes('%') || userFullName.includes('^') || userFullName.includes('&') || userFullName.includes('*') || userFullName.includes('(') || userFullName.includes(')') || userFullName.includes('-') || userFullName.includes('+') || userFullName.includes('=') || userFullName.includes('/') || userFullName.includes('\\')) {
+        Swal.fire({
+            title: "Invalid Full Name",
+            text: "Please enter a valid full name.",
+            icon: "error"
+        });
+        return;
+    }
 
     try {
         signUpBtn.disabled = true;
@@ -123,7 +130,7 @@ signUpBtn.addEventListener('click', async (e) => {
 
         Swal.fire({
             title: "Sign up successful!",
-            text: `Welcome! ${userFullName}, your account has been created successfully.`,
+            text: `Welcome! ${userFullName}🎉, your account has been created successfully.`,
             icon: "success"
         }).then(()=>{
             window.location.href = '../OtherPages/login.html';

@@ -183,7 +183,7 @@ async function displayResults(results) {
 }
 
 
-// ================= PAGINATION =================
+// PAGINATION 
 function updatePagination() {
 
     const totalPages = Math.ceil(allResults.length / pageSize);
@@ -208,7 +208,7 @@ function updatePagination() {
 }
 
 
-// ================= BUTTON EVENTS =================
+// BUTTON EVENTS 
 prevBtn.addEventListener("click", () => {
     if (currentPage > 1) {
         currentPage--;

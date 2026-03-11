@@ -46,7 +46,15 @@
         }
     </style>
 </head>
+
 <body class="bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 min-h-screen relative overflow-x-hidden">
+        <!-- Full Page Loading Spinner -->
+<div id="page-loader" class="fixed inset-0 z-[9999] flex items-center justify-center bg-white/50 dark:bg-slate-900/50 hidden">
+    <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-brand-500 dark:border-brand-300"></div>
+        <p class="absolute bottom-[260px]">Loading dashboard...</p>
+
+</div>
+
 
     <!-- Animated Background Orbs -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden">
@@ -276,8 +284,17 @@
                 </button>
             </div>
             
+
+              <!-- LOADING SPINNER -->
+    <div id="activity-loading" class="flex flex-col items-center justify-center py-12">
+        <div class="w-12 h-12 border-4 border-slate-300 dark:border-slate-700 border-t-brand-600 rounded-full animate-spin mb-3"></div>
+        <p class="text-slate-500 dark:text-slate-400 text-sm">Loading recent activity...</p>
+    </div>
+
             <div id="recent-activity-container" class="space-y-4">
+                
                 <!-- Activity items will be populated by JS -->
+                 
                 <div class="text-center py-12 text-slate-500 dark:text-slate-400">
                     <i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i>
                     <p>No recent activity. Start taking exams to see your progress!</p>

@@ -46,6 +46,12 @@ onAuthStateChanged(auth, async (user) => {
     if (!user) return window.location.href = '../index.html';
     userAvatar.textContent = user.email ? user.email.charAt(0).toUpperCase() : 'U';
 });
+// EXAM TITLE AND EXAM TYPE
+const examTitleEl = document.getElementById('examTitle');
+const examTypeEl = document.getElementById('examType');
+
+examTitleEl.textContent = "Loading Exam...";
+examTypeEl.textContent = "...";
 
 //  EXAM DATA 
 let questions = [];
@@ -67,8 +73,10 @@ async function fetchExam() {
         const examSnap = await getDoc(doc(db, "Exams", examId));
         if (!examSnap.exists()) return console.log("No exam found!");
 
-        const examData = examSnap.data();
-        examTitle = examData.title || examData.examTitle || examData.name || "Unnamed Exam";
+     const examData = examSnap.data();
+    examTitle = examData.title || examData.examTitle || examData.name || "Unnamed Exam";
+    examTitleEl.textContent = examTitle;
+   examTypeEl.textContent = examData.subjectType || "Mixed";
 
         const duration = examData.duration || 0;
         const examTimeEl = document.getElementById('timer-display');
@@ -110,6 +118,8 @@ async function fetchExam() {
     } catch (err) {
         console.error(err);
     }
+            console.log(questions);
+
 }
 
 fetchExam();
@@ -122,34 +132,37 @@ function displayQuestion() {
     document.getElementById("current-question-number").textContent = currentQuestionIndex + 1;
     document.getElementById("total-questions").textContent = questions.length;
 
-    const iconClass = question.questionType === "multiple" ? "fa-list-check" : "fa-pen";
+    const questionType = question.questionType || "Multiple Choice";
+    const iconClass = questionType === "Multiple Choice" ? "fa-list-check" : "fa-pen";
 
     let optionsHtml = "";
-    ["A","B","C","D"].forEach((label,i) => {
-        const isSelected = question.selectedOption === label;
-        const borderClass = isSelected ? "border-brand-600 dark:border-brand-500" : "border-slate-300 dark:border-slate-700";
-        const bgClass = isSelected ? "bg-brand-50 dark:bg-brand-900/20" : "bg-white dark:bg-slate-900";
-        const checkIcon = isSelected ? `<i class="fa-solid fa-circle-check text-brand-600 dark:text-brand-400"></i>` : "";
-        optionsHtml += `
-            <button class="answer-option w-full text-left p-4 border-2 ${borderClass} ${bgClass} rounded-lg hover:border-brand-400 transition-colors"
-                data-option="${label}">
-                <div class="flex items-center gap-3">
-                    <span class="flex-shrink-0 w-8 h-8 rounded-full ${isSelected ? 'bg-brand-600 dark:bg-brand-500 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'} flex items-center justify-center font-bold text-sm">
-                        ${label}
-                    </span>
-                    <span class="flex-1 text-sm sm:text-base ${isSelected ? 'text-slate-900 dark:text-white font-medium' : 'text-slate-800 dark:text-slate-200'}">
-                        ${question.options[i]}
-                    </span>
-                    ${checkIcon}
-                </div>
-            </button>
-        `;
-    });
+   ["A","B","C","D"].forEach((label,i) => {
+    const isSelected = question.selectedOption === label;
+    const borderClass = isSelected ? "border-brand-600 dark:border-brand-500" : "border-slate-300 dark:border-slate-700";
+    const bgClass = isSelected ? "bg-brand-50 dark:bg-brand-900/20" : "bg-white dark:bg-slate-900";
+    const checkIcon = isSelected ? `<i class="fa-solid fa-circle-check text-brand-600 dark:text-brand-400"></i>` : "";
+
+    optionsHtml += `
+        <button class="answer-option w-full text-left p-4 border-2 ${borderClass} ${bgClass} rounded-lg hover:border-brand-400 transition-colors"
+            data-option="${label}">
+            <div class="flex items-center gap-3">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full ${isSelected ? 'bg-brand-600 dark:bg-brand-500 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'} flex items-center justify-center font-bold text-sm">
+                    ${label}
+                </span>
+                <span class="flex-1 text-sm sm:text-base ${isSelected ? 'text-slate-900 dark:text-white font-medium' : 'text-slate-800 dark:text-slate-200'}">
+                  ${question.options[label] || question.options[i]}
+                </span>
+                ${checkIcon}
+            </div>
+        </button>
+    `;
+});
+   
 
     container.innerHTML = `
         <div class="inline-flex items-center gap-2 px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-medium rounded-md mb-4">
             <i class="fa-solid ${iconClass}"></i>
-            <span>${question.questionType}</span>
+            <span>${questionType}</span>
         </div>
 
         <h2 class="text-base sm:text-lg text-slate-900 dark:text-white leading-relaxed mb-6">
@@ -160,7 +173,7 @@ function displayQuestion() {
             ${optionsHtml}
         </div>
     `;
-
+console.log(question.questionType);
     // Option click
     container.querySelectorAll("button[data-option]").forEach(btn => {
         btn.addEventListener("click", () => {
@@ -242,6 +255,7 @@ async function submitExam() {
         if(q.selectedOption===q.correctAnswer)
          score++;});
         Swal.fire({title:'Submitting...',allowOutsideClick:false,didOpen:()=>Swal.showLoading()});
+        const percentage = Math.round((score / questions.length) * 100);
 
         const params = new URLSearchParams(window.location.search);
         const examId = params.get('id');
@@ -254,6 +268,7 @@ async function submitExam() {
             userId:user.uid,
             score,
             totalQuestions:questions.length,
+            percentage,
             timestamp:serverTimestamp(),
             answers:questions.map(q=>({questionId:q.id, selectedOption:q.selectedOption, correctAnswer:q.correctAnswer}))
         });
@@ -272,10 +287,18 @@ async function submitExam() {
 
 submitExamBtn?.addEventListener('click',submitExam);
 
+
+
 //  AUTO SUBMIT 
 async function autoSubmitExam(examId){
     try{
-        let score=0; questions.forEach(q=>{if(q.selectedOption===q.correctAnswer) score++;});
+        let score=0;
+         questions.forEach(q=>{
+        if(q.selectedOption===q.correctAnswer) 
+        score++;
+    });
+    const percentage = Math.round((score / questions.length) * 100);
+
         const user = auth.currentUser;
         const resultId = `${user.uid}_${examId}`;
         await setDoc(doc(db,"ExamResults",resultId),{
@@ -284,6 +307,7 @@ async function autoSubmitExam(examId){
             userId:user.uid,
             score,
             totalQuestions:questions.length,
+            percentage,
             timestamp:serverTimestamp(),
             answers:questions.map(q=>({questionId:q.id,selectedOption:q.selectedOption,correctAnswer:q.correctAnswer}))
         });

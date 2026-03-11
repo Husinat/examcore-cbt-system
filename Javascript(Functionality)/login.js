@@ -39,7 +39,6 @@ if (passwordInput && showPasswordIcon) {
 }
 
 // FIREBASE
-// FIREBASE
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
@@ -173,8 +172,8 @@ if (actualRole === "student" && selectedRole === "admin") {
     } else {
 
         Swal.fire({
-            title: `Welcome ${userFullname}! 🎉`,
-            text: "Your account has been created successfully.",
+            title: `Welcome ${userFullname}!`,
+            text: "You are now signed in 🎉",
             icon: "success",
             timer: 3000,
             showConfirmButton: false
@@ -215,7 +214,10 @@ else {
     }
 }
 } catch (err) {
-        Swal.fire({ title: "Login failed", text: err.message, icon: "error" });
+        Swal.fire({ 
+        title: "Login failed",
+         text: err.message,
+          icon: "error" });
         userPasswordInput.value = "";
     } finally {
         loginBtn.disabled = false;

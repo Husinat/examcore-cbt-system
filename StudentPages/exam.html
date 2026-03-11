@@ -11,6 +11,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    
      <link rel="shortcut icon" href="./../Assets/images/ExamCore imageLogo.png" type="image/x-icon">
     <script>
         tailwind.config = {
@@ -108,8 +109,8 @@
         <div class="max-w-[1400px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             <!-- Exam Title -->
             <div>
-                <h1 class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">UTME Practice Test</h1>
-                <p class="text-sm text-slate-500 dark:text-slate-400">Mixed</p>
+                <h1 id="examTitle" class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">UTME Practice Test</h1>
+                <p id="examType" class="text-sm text-slate-500 dark:text-slate-400">Mixed</p>
             </div>
 
             <!-- Timer -->
@@ -132,11 +133,10 @@
                 <div class="mb-4 flex items-center justify-between">
                     <p class="text-sm font-medium text-slate-600 dark:text-slate-400">
                         Question <span id="current-question-number"
-                            class="text-brand-600 dark:text-brand-400 font-bold">1</span> of <span id="total-questions"
-                            class="font-bold">40</span>
+                            class="text-brand-600 dark:text-brand-400 font-bold"> 1</span> of <span id="total-questions"
+                            class="font-bold">0</span>
                     </p>
                 </div>
-<a href="./resultPage.html"></a>
                 <!-- Question Card -->
                 <div class="bg-white dark:bg-slate-900 border border-slate-200 relative dark:border-slate-800 rounded-xl p-6 mb-6"id="question-container">
                     <div id="loading-spinner" class="flex justify-center items-center py-20">
