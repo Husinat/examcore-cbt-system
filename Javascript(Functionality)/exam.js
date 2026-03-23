@@ -25,7 +25,7 @@ toggleBtn?.addEventListener('click', () => {
 //  FIREBASE 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-import { getFirestore, collection, doc, getDoc, getDocs, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, serverTimestamp, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyB3kyJ6WefUF3e-KFeEUtnxeTR6SgIXIvU",
@@ -78,6 +78,23 @@ async function fetchExam() {
     examTitleEl.textContent = examTitle;
    examTypeEl.textContent = examData.subjectType || "Mixed";
 
+        // Fetch questions
+     const q = query(
+    collection(db, "Exams", examId, "questions"),
+    orderBy("questionNumber")
+);
+
+const questionsSnap = await getDocs(q);
+        questions = [];
+        questionsSnap.forEach(docSnap => {
+            questions.push({
+                id: docSnap.id,
+                selectedOption: null,
+                correctAnswer: docSnap.data().correctAnswer || null,
+                ...docSnap.data()
+            });
+        });
+
         const duration = examData.duration || 0;
         const examTimeEl = document.getElementById('timer-display');
         let remainingTime = duration * 60;
@@ -97,19 +114,6 @@ async function fetchExam() {
                 autoSubmitExam(examId);
             }
         }, 1000);
-
-        // Fetch questions
-        const questionsSnap = await getDocs(collection(db, "Exams", examId, "questions"));
-        questions = [];
-        questionsSnap.forEach(docSnap => {
-            questions.push({
-                id: docSnap.id,
-                selectedOption: null,
-                correctAnswer: docSnap.data().correctAnswer || null,
-                ...docSnap.data()
-            });
-        });
-
         document.getElementById("loading-spinner").style.display = "none";
         renderQuestionNavigator();
         displayQuestion();
@@ -165,6 +169,13 @@ function displayQuestion() {
             <span>${questionType}</span>
         </div>
 
+         <h4 class="text-sm font-bold text-brand-600 dark:text-brand-400 mb-1">
+                         ${question.questionTitle}
+                        </h4>
+         <p class="text-base text-slate-700 dark:text-slate-300 mb-3 py-5">
+                        ${question.passage || ''}
+                        </p>
+
         <h2 class="text-base sm:text-lg text-slate-900 dark:text-white leading-relaxed mb-6">
             ${question.questionText}
         </h2>
@@ -173,7 +184,7 @@ function displayQuestion() {
             ${optionsHtml}
         </div>
     `;
-console.log(question.questionType);
+console.log(question.questionText);
     // Option click
     container.querySelectorAll("button[data-option]").forEach(btn => {
         btn.addEventListener("click", () => {

@@ -1,7 +1,7 @@
 // FIREBASE
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, updatePassword, EmailAuthProvider, reauthenticateWithCredential, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyB3kyJ6WefUF3e-KFeEUtnxeTR6SgIXIvU",
@@ -170,17 +170,17 @@ if (profileForm) {
                 userAvatar.textContent = initials;
                 userNameAvatar.textContent = initials;
                 
-                // Show success message for name update
-                Swal.fire({
-                    icon: "success",
-                    title: "Name Updated!",
-                    text: "Your name has been updated successfully.",
-                    timer: 1500,
-                    showConfirmButton: false
-                });
+                // // Show success message for name update
+                // Swal.fire({
+                //     icon: "success",
+                //     title: "Name Updated!",
+                //     text: "Your name has been updated successfully.",
+                //     timer: 1500,
+                //     showConfirmButton: false
+                // });
             }
 
-            // Handle password change if provided
+            // Handling password change if provided
             if (newPassword) {
                 // Validate passwords match
                 if (newPassword !== confirmPassword) {
@@ -223,7 +223,7 @@ if (profileForm) {
                         window.location.href = "../OtherPages/login.html?redirect=profile&passwordChanged=true";
                     });
                     
-                    return; // Stop execution here since we're redirecting
+                    return; 
 
                 } catch (reauthError) {
                     console.error("Reauth error:", reauthError);
@@ -240,7 +240,14 @@ if (profileForm) {
                             title: "Too Many Attempts",
                             text: "Access temporarily disabled due to many failed attempts. Try again later."
                         });
-                    } else {
+                    } else if (reauthError.code === 'auth/weak-password') {
+                        Swal.fire({
+                            icon: "error",
+                            title: "New password is weak",
+                            text: "Password should be at least 6 characters long."
+                        });
+                    }
+                     else {
                         Swal.fire({
                             icon: "error",
                             title: "Authentication Failed",
@@ -272,6 +279,113 @@ if (profileForm) {
     });
 }
 
+// Delete Account From Firestore Btn
+const deleteAccBtn = document.getElementById('deleteAccount-btn');
+if (deleteAccBtn) {
+    deleteAccBtn.addEventListener('click', async () => {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const result = await Swal.fire({
+            title: 'Delete Account?',
+            text: 'This action is permanent and cannot be undone. All your data will be lost.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete my account',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true
+        });
+
+        if (!result.isConfirmed) return;
+
+  
+        const { value: password } = await Swal.fire({
+            title: 'Confirm Your Password',
+            text: 'Please enter your password to confirm account deletion',
+            input: 'password',
+            inputLabel: 'Password',
+            inputPlaceholder: 'Enter your password',
+            inputAttributes: {
+                autocapitalize: 'off',
+                autocorrect: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Delete Account',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Password is required!';
+                }
+            }
+        });
+
+        if (!password) return;
+
+        try {
+            Swal.fire({
+                title: 'Deleting Account...',
+                text: 'Please wait while we process your request.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Re-authenticating user before deletion
+            const credential = EmailAuthProvider.credential(user.email, password);
+            await reauthenticateWithCredential(user, credential);
+
+            // Deleting user data from Firestore
+            await deleteDoc(doc(db, "users", user.uid));
+            
+            // Deleting the user authentication account
+            // await deleteUser(user);
+
+            // Success message and redirect
+            await Swal.fire({
+                icon: 'success',
+                title: 'Account Deleted',
+                text: 'Your account has been permanently deleted.',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            });
+
+            // Redirect to home page or login
+            window.location.href = "../index.html";
+
+        } catch (error) {
+            console.error("Error deleting account:", error);
+            
+            // Handling errors
+            let errorMessage = "Failed to delete account. Please try again.";
+            
+            if (error.code === 'auth/wrong-password') {
+                errorMessage = "Incorrect password. Please try again.";
+            } else if (error.code === 'auth/too-many-requests') {
+                errorMessage = "Too many failed attempts. Please try again later.";
+            } else if (error.code === 'auth/requires-recent-login') {
+                errorMessage = "This action requires recent login. Please log out and log in again.";
+            }
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: errorMessage,
+                confirmButtonColor: '#3085d6'
+            });
+        }
+    });
+}
+
+
+
 // LOGOUT
 const logoutBtn = document.getElementById("logout-btn");
 if (logoutBtn) {
@@ -295,7 +409,11 @@ if (logoutBtn) {
 
         } catch (err) {
             console.error("Error logging out:", err);
-            Swal.fire({ icon: "error", title: "Error", text: "Failed to logout. Try again." });
+            Swal.fire({ 
+            icon: "error", 
+            title: "Error", 
+            text: "Failed to logout. Try again." 
+          });
         }
     });
 }

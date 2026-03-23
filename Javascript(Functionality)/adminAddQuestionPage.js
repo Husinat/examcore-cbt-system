@@ -25,6 +25,7 @@ toggleBtn.addEventListener('click', () => {
 
 
 
+
 // FIREBASE IMPORTS
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
@@ -197,7 +198,7 @@ async function fetchQuestions() {
             showQuestions();
         }
         console.log(questions);
-        
+
 
     } catch (error) {
         console.error('Error fetching questions:', error);
@@ -249,9 +250,15 @@ function renderQuestions() {
                        <h4 class="text-sm font-bold text-brand-600 dark:text-brand-400 mb-1">
                         ${question.questionTitle}
                         </h4>
-                        <p class="text-base text-slate-700 dark:text-slate-300 mb-3">
-                        ${question.questionText}
+
+                           <p class="text-base text-slate-700 dark:text-slate-300 mb-3">
+                        ${question.passage}
                         </p>
+
+                        <h1 class="text-base text-slate-700 dark:text-slate-300 mb-3">
+                        ${question.questionText}
+                        </h1>
+                     
 
                         <!-- Options -->
                   <!-- Options -->
@@ -285,6 +292,15 @@ document.getElementById('add-question-btn').addEventListener('click', async () =
                     <label class="block text-sm font-[400] text-slate-700 dark:text-slate-300 mb-2">Question Title</label>
                     <textarea id="swal-questionTitle" class="w-full px-3 py-1 border border-slate-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-brand-500" rows="3" placeholder="Enter question title"></textarea>
                 </div>
+
+                <div>
+            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"> Passage (Optional)</label>
+    <textarea id="swal-passage" class="w-full px-3 py-2 border border-slate-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-brand-500"rows="4"placeholder="Enter comprehension passage (for English or theory questions)">
+    </textarea>
+</div>
+
+
+
                 <div>
                     <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Question Text</label>
                     <textarea id="swal-question" class="w-full px-3 py-2 border border-slate-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-brand-500" rows="3" placeholder="Enter question text"></textarea>
@@ -325,22 +341,23 @@ document.getElementById('add-question-btn').addEventListener('click', async () =
             popup: 'overflow-hidden',
             htmlContainer: 'overflow-y-auto max-h-96'
         },
-     preConfirm: () => {
-    const questionTitle = document.getElementById('swal-questionTitle').value;
-    const question = document.getElementById('swal-question').value;
-    const optionA = document.getElementById('swal-option-a').value;
-    const optionB = document.getElementById('swal-option-b').value;
-    const optionC = document.getElementById('swal-option-c').value;
-    const optionD = document.getElementById('swal-option-d').value;
-    const correct = document.getElementById('swal-correct').value;
+        preConfirm: () => {
+            const questionTitle = document.getElementById('swal-questionTitle').value;
+            const question = document.getElementById('swal-question').value;
+            const optionA = document.getElementById('swal-option-a').value;
+            const optionB = document.getElementById('swal-option-b').value;
+            const optionC = document.getElementById('swal-option-c').value;
+            const optionD = document.getElementById('swal-option-d').value;
+            const correct = document.getElementById('swal-correct').value;
+            const passage = document.getElementById('swal-passage').value;
 
-    if (!questionTitle || !question || !optionA || !optionB || !optionC || !optionD || !correct) {
-        Swal.showValidationMessage('All fields are required');
-        return false;
-    }
+        if (!questionTitle || !question || !optionA || !optionB || !optionC || !optionD || !correct) {
+                // Swal.showValidationMessage('All fields are required');
+                return false;
+            }
 
-    return { questionTitle, question, optionA, optionB, optionC, optionD, correct };
-}
+            return { questionTitle, question, optionA, optionB, optionC, optionD, correct, passage };
+        }
     });
 
     if (formValues) {
@@ -349,6 +366,7 @@ document.getElementById('add-question-btn').addEventListener('click', async () =
             await addDoc(questionsRef, {
                 questionNumber: questions.length + 1,
                 questionTitle: formValues.questionTitle,
+                passage: formValues.passage || null,
                 questionText: formValues.question,
                 options: {
                     A: formValues.optionA,
@@ -357,7 +375,7 @@ document.getElementById('add-question-btn').addEventListener('click', async () =
                     D: formValues.optionD
                 },
                 correctAnswer: formValues.correct,
-                createdAt: serverTimestamp()
+                createdAt: serverTimestamp(),
             });
 
 
@@ -389,9 +407,21 @@ window.editQuestion = async (questionId) => {
         html: `
                     <div class="text-left space-y-4">
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Question Text</label>
-                            <textarea id="swal-question" class="swal2-input w-full" rows="3">${question.questionText}</textarea>
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Question Title</label>
+                            <textarea id="swal-questionTitle" class="swal2-input w-full" rows="3">${question.questionTitle}</textarea>
                         </div>
+
+                            <div>
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Question Passage</label>
+                            <textarea id="swal-passage" class="swal2-input w-full" rows="3">${question.passage || ''}</textarea>
+                        </div>
+
+                            <div>
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Question Text</label>
+                            <textarea id="swal-questionText" class="swal2-input w-full" rows="3">${question.questionText}</textarea>
+                        </div>
+
+
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Option A</label>
                             <input id="swal-option-a" class="swal2-input w-full" value="${question.options.A}">
@@ -425,29 +455,34 @@ window.editQuestion = async (questionId) => {
         cancelButtonText: 'Cancel',
         preConfirm: () => {
             return {
-                question: document.getElementById('swal-question').value,
-                optionA: document.getElementById('swal-option-a').value,
-                optionB: document.getElementById('swal-option-b').value,
-                optionC: document.getElementById('swal-option-c').value,
-                optionD: document.getElementById('swal-option-d').value,
-                correct: document.getElementById('swal-correct').value
+            questionTitle: document.getElementById('swal-questionTitle').value,
+        passage: document.getElementById('swal-passage').value,
+        questionText: document.getElementById('swal-questionText').value,
+        optionA: document.getElementById('swal-option-a').value,
+        optionB: document.getElementById('swal-option-b').value,
+        optionC: document.getElementById('swal-option-c').value,
+        optionD: document.getElementById('swal-option-d').value,
+        correct: document.getElementById('swal-correct').value
             };
         }
     });
 
+
     if (formValues) {
         try {
             const questionRef = doc(db, 'Exams', examId, 'questions', questionId);
-            await updateDoc(questionRef, {
-                questionText: formValues.question,
-                options: {
-                    A: formValues.optionA,
-                    B: formValues.optionB,
-                    C: formValues.optionC,
-                    D: formValues.optionD
-                },
-                correctAnswer: formValues.correct
-            });
+          await updateDoc(questionRef, {
+    questionTitle: formValues.questionTitle,
+    passage: formValues.passage,
+    questionText: formValues.questionText,
+    options: {
+        A: formValues.optionA,
+        B: formValues.optionB,
+        C: formValues.optionC,
+        D: formValues.optionD
+    },
+    correctAnswer: formValues.correct
+});
 
             Swal.fire({
                 title: 'Updated!',

@@ -66,7 +66,7 @@ loginBtn.addEventListener('click', async (e) => {
 
     const email = userEmailInput.value.trim();
     const password = userPasswordInput.value;
-    const selectedRole = document.getElementById('role').value; // ✅ Added
+    const selectedRole = document.getElementById('role').value; 
 
     if (!email || !password) {
         Swal.fire({ 
@@ -93,9 +93,11 @@ loginBtn.addEventListener('click', async (e) => {
 
         if (!userSnap.exists()) {
             Swal.fire({
-                title: "User record not found",
-                text: "Please contact support.",
+                title: "User does not exist",
+                text: "Please proceed to sign up page to get started",
                 icon: "error"
+            }).then(() => {
+                window.location.href = "./signup.html";
             });
             return;
         }
@@ -108,7 +110,7 @@ loginBtn.addEventListener('click', async (e) => {
    
    // 🔐 ROLE CHECK (Dual Access System)
 
-// If user is student but tries to enter as an admin → deny
+// If user is student but tries to enter as an admin
 if (actualRole === "student" && selectedRole === "admin") {
 
     Swal.fire({
@@ -123,8 +125,6 @@ if (actualRole === "student" && selectedRole === "admin") {
     return;
 }
 
-
-
         let userFullname = userData.fullname?.trim() || "";
 
         if (!userFullname) {
@@ -138,23 +138,17 @@ if (actualRole === "student" && selectedRole === "admin") {
         // Password change login
         if (redirect === "profile" && passwordChanged === "true") {
             Swal.fire({
-                title: `Welcome, ${userFullname}! 🔐`,
+                title: `Welcome back, ${userFullname}! 🔐`,
                 text: "Your password has been successfully updated.",
                 icon: "success",
                 timer: 2000,
                 showConfirmButton: false
             }).then(() => {
-
-                // ✅ Role-based redirect
-            if (selectedRole === "admin") {
-         window.location.href = "./../Admin Pages/adminDashboard.html";
-        } else {
-    window.location.href = "../StudentPages/dashboard.html";
-       }
+         window.location.href = "./../StudentPages/updateProfile.html";
+             
             });
-        }
-
-        // First time login
+        } 
+        // First time login as either student or admin
      else if (isFirstTimeLogin) {
 
     if (actualRole === "admin") {
@@ -169,26 +163,23 @@ if (actualRole === "student" && selectedRole === "admin") {
             window.location.href = "./../Admin Pages/adminDashboard.html";
         });
 
-    } else {
+    } else if (actualRole === "student") {
 
         Swal.fire({
-            title: `Welcome ${userFullname}!`,
-            text: "You are now signed in 🎉",
+            title: `Welcome ${userFullname}! 🎉`,
+            text: "Your student account is ready.",
             icon: "success",
             timer: 3000,
             showConfirmButton: false
         }).then(() => {
-            window.location.href = "../StudentPages/dashboard.html";
+            window.location.href = "./../StudentPages/dashboard.html";
         });
 
-    }
+    } 
 }
-
-    // Normal returning user
 else {
 
     if (selectedRole === "admin") {
-
         Swal.fire({
             title: `Welcome, Admin ${userFullname}! 🛠️`,
             text: "Admin access granted.",
@@ -199,6 +190,7 @@ else {
             window.location.href = "./../Admin Pages/adminDashboard.html";
         });
 
+          // Normal returning user
     } else {
 
         Swal.fire({
