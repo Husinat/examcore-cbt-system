@@ -167,7 +167,10 @@ function createExamCard(exam, index) {
             `;
             console.log("Exam ID:", exam.id);
     return card;
+
+   
 }
+
 
 // START EXAM FUNCTION
 window.startExam = function (examId) {

@@ -251,9 +251,16 @@ function renderQuestions() {
                         ${question.questionTitle}
                         </h4>
 
-                           <p class="text-base text-slate-700 dark:text-slate-300 mb-3">
-                        ${question.passage}
-                        </p>
+                      ${question.passage && question.passage.trim() !== '' ? `
+                     <p class="text-base text-slate-700 dark:text-slate-300 mb-3 py-5">
+                     ${question.passage}</p>` : ''}
+
+                        ${question.imageUrl ? `
+    <img src="${question.imageUrl}" 
+         class="mb-3 rounded-lg w-full p-10 max-h-[200px] object-contain border">
+` : ""}
+
+
 
                         <h1 class="text-base text-slate-700 dark:text-slate-300 mb-3">
                         ${question.questionText}
@@ -282,7 +289,8 @@ ${Object.entries(question.options || {}).map(([key, option]) => `
 
 // ADD QUESTION
 document.getElementById('add-question-btn').addEventListener('click', async () => {
-    const { value: formValues } = await Swal.fire({
+    const {
+        value: formValues } = await Swal.fire({
         title: 'Add New Question',
         width: '90%',
         maxWidth: '600px',
@@ -294,13 +302,15 @@ document.getElementById('add-question-btn').addEventListener('click', async () =
                 </div>
 
                 <div>
-            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"> Passage (Optional)</label>
-    <textarea id="swal-passage" class="w-full px-3 py-2 border border-slate-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-brand-500"rows="4"placeholder="Enter comprehension passage (for English or theory questions)">
-    </textarea>
-</div>
+                 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"> Passage (Optional)</label>
+            <textarea id="swal-passage" class="w-full px-3 py-2 border border-slate-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-brand-500"rows="4"placeholder="Enter comprehension passage (for English or theory questions)">
+             </textarea>
+            </div>
 
-
-
+                <div>
+              <label>Diagram Image URL (Optional)</label>
+             <textarea id="swal-image" class="w-full px-3 p-10 border border-slate-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-brand-500" rows="3" placeholder="Paste image link"></textarea>
+            </div>
                 <div>
                     <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Question Text</label>
                     <textarea id="swal-question" class="w-full px-3 py-2 border border-slate-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-brand-500" rows="3" placeholder="Enter question text"></textarea>
@@ -350,13 +360,14 @@ document.getElementById('add-question-btn').addEventListener('click', async () =
             const optionD = document.getElementById('swal-option-d').value;
             const correct = document.getElementById('swal-correct').value;
             const passage = document.getElementById('swal-passage').value;
+            const imageUrl = document.getElementById('swal-image').value;
 
-        if (!questionTitle || !question || !optionA || !optionB || !optionC || !optionD || !correct) {
-                // Swal.showValidationMessage('All fields are required');
-                return false;
-            }
+        // if (!questionTitle || !question || !optionA || !optionB || !optionC || !optionD || !correct) {
+        //         Swal.showValidationMessage('All fields are required');
+        //         return false;
+        //     }
 
-            return { questionTitle, question, optionA, optionB, optionC, optionD, correct, passage };
+            return { questionTitle, question, optionA, optionB, optionC, optionD, correct, passage, imageUrl};
         }
     });
 
@@ -366,7 +377,8 @@ document.getElementById('add-question-btn').addEventListener('click', async () =
             await addDoc(questionsRef, {
                 questionNumber: questions.length + 1,
                 questionTitle: formValues.questionTitle,
-                passage: formValues.passage || null,
+                passage: formValues.passage,
+                imageUrl: formValues.imageUrl || null,
                 questionText: formValues.question,
                 options: {
                     A: formValues.optionA,
@@ -416,6 +428,11 @@ window.editQuestion = async (questionId) => {
                             <textarea id="swal-passage" class="swal2-input w-full" rows="3">${question.passage || ''}</textarea>
                         </div>
 
+                              <div>
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Image URL</label>
+                            <textarea id="swal-imageUrl" class="swal2-input w-full" rows="3">${question.imageUrl || ''}</textarea>
+                        </div>
+
                             <div>
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Question Text</label>
                             <textarea id="swal-questionText" class="swal2-input w-full" rows="3">${question.questionText}</textarea>
@@ -457,6 +474,7 @@ window.editQuestion = async (questionId) => {
             return {
             questionTitle: document.getElementById('swal-questionTitle').value,
         passage: document.getElementById('swal-passage').value,
+           imageUrl: document.getElementById('swal-imageUrl').value,
         questionText: document.getElementById('swal-questionText').value,
         optionA: document.getElementById('swal-option-a').value,
         optionB: document.getElementById('swal-option-b').value,
@@ -471,10 +489,11 @@ window.editQuestion = async (questionId) => {
     if (formValues) {
         try {
             const questionRef = doc(db, 'Exams', examId, 'questions', questionId);
-          await updateDoc(questionRef, {
-    questionTitle: formValues.questionTitle,
-    passage: formValues.passage,
-    questionText: formValues.questionText,
+            await updateDoc(questionRef, {
+            questionTitle: formValues.questionTitle,
+            passage: formValues.passage,
+            imageUrl: formValues.imageUrl ? formValues.imageUrl.trim() : "",
+            questionText: formValues.questionText,
     options: {
         A: formValues.optionA,
         B: formValues.optionB,

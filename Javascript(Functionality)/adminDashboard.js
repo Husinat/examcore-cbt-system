@@ -170,7 +170,7 @@ loadTotalExams();
 // LOAD TOTAL SUBMISSIONS
 async function totalSubmission()  {
     try {
-     const totalSubRef = collection(dataBase, 'examsCompleted')  ;
+   const totalSubRef = collection(dataBase, 'ExamResults');
      const querySnapshot = await getDocs(totalSubRef);
 
       const totalSubmissions = querySnapshot.size;

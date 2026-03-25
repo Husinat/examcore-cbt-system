@@ -130,9 +130,19 @@ fetchExam();
 
 //  DISPLAYING QUESTION(S)
 function displayQuestion() {
+    console.log("DISPLAY QUESTION RUNNING");
+console.log("CONTAINER ELEMENT:", document.getElementById("question-container"));
+
     if (!questions.length) return;
     const question = questions[currentQuestionIndex];
+    console.log("CURRENT QUESTION:", question);
+
+
     const container = document.getElementById("question-container");
+    if (!container) {
+    console.error("❌ question-container NOT FOUND in HTML");
+    return;
+}
     document.getElementById("current-question-number").textContent = currentQuestionIndex + 1;
     document.getElementById("total-questions").textContent = questions.length;
 
@@ -160,6 +170,8 @@ function displayQuestion() {
             </div>
         </button>
     `;
+  console.log("IMAGE URL:", question.imageUrl);
+    
 });
    
 
@@ -175,6 +187,13 @@ function displayQuestion() {
          <p class="text-base text-slate-700 dark:text-slate-300 mb-3 py-5">
                         ${question.passage || ''}
                         </p>
+
+       <div>
+               ${question.imageUrl ? `
+             <img src="${question.imageUrl}" 
+                  class="mb-3 rounded-lg w-full p-10 max-h-[200px] object-contain border">
+             ` : ""}
+         </div>
 
         <h2 class="text-base sm:text-lg text-slate-900 dark:text-white leading-relaxed mb-6">
             ${question.questionText}
