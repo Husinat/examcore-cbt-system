@@ -41,6 +41,7 @@ const subPhrases = [
     'Simulate Real CBT Experience',
     'Timed Mock Examinations',
     'Instant Performance Analysis'
+    
 ]
 let currentIndex = 0;
 let letterIndex = 0;
