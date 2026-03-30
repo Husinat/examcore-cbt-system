@@ -108,7 +108,8 @@ onAuthStateChanged(auth, async (loggedInUser) => {
         updateElementText('totalExams', totalExamsSnap.size);
 
         // Exams completed
-        const resultsSnap = await getDocs(query(collection(dataBase, "ExamResults"), where("userId", "==", uid)));
+        const resultsSnap = await getDocs(query(collection(dataBase, "ExamResults"),
+         where("userId", "==", uid)));
         updateElementText('examsTaken', resultsSnap.size);
 
         // Average score
@@ -158,9 +159,21 @@ if (viewResultsBtn) {
                 limit(1)
             ));
             Swal.close();
-            if (!qSnap.empty) window.location.href = `./resultHistory.html?id=${qSnap.docs[0].id}`;
-            else Swal.fire({icon:'info',title:'No Results Found',text:'You haven\'t taken any exams yet.',confirmButtonColor:'#2e8ff7'});
-        } catch(err) { console.error(err); Swal.close(); Swal.fire({icon:'error',title:'Error',text:'Failed to load results. Please try again.',confirmButtonColor:'#2e8ff7'}); }
+            if (!qSnap.empty) {
+                window.location.href = `./resultHistory.html?id=${qSnap.docs[0].id}`;
+            }else Swal.fire({
+                icon:'info',
+                title:'No Results Found',
+                text:'You haven\'t taken any exams yet.',
+                confirmButtonColor:'#2e8ff7'
+            });
+        } catch(err) { 
+            console.error(err);
+             Swal.close(); Swal.fire({
+                icon:'error',
+                title:'Error',
+                text:'Failed to load results. Please try again.',
+                confirmButtonColor:'#2e8ff7'}); }
     });
 }
 
@@ -414,11 +427,18 @@ async function dashBoardLogOutBtn() {
             await signOut(auth);
             window.location.href = "../index.html";
         }
-    } catch (err) { console.error(err); Swal.fire({icon:"error",title:"Error",text:"Failed to logout. Try again."}); }
+    } catch (err) {
+         console.error(err);
+          Swal.fire({
+            icon:"error",
+            title:"Error",
+            text:"Failed to logout. Try again."
+        }); }
 }
 
 let dropdownlogBtn = document.getElementById('logout-btn');
 if (dropdownlogBtn) dropdownlogBtn.addEventListener('click', dashBoardLogOutBtn);
+
 let hamburgerlogBtn = document.getElementById('mobile-logout-btn');
 if (hamburgerlogBtn) hamburgerlogBtn.addEventListener('click', dashBoardLogOutBtn);
 

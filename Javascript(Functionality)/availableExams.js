@@ -1,8 +1,8 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+import { getFirestore, collection, getDocs, getDoc, doc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
-// Firebase configuration - REPLACE WITH YOUR CONFIG
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyB3kyJ6WefUF3e-KFeEUtnxeTR6SgIXIvU",
     authDomain: "examcore-project.firebaseapp.com",
@@ -28,25 +28,75 @@ const retryBtn = document.getElementById('retry-btn');
 export const userAvatar = document.getElementById('user-avatar');
 
 
-// AUTHENTICATION GUARD: Redirect to signin page if user is not authenticated
+// Helper to update element text
+function updateElementText(id, text) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = text;
+}
 
-onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-        // User not logged in - redirect to signin page
-        window.location.href = '../index.html';
+//AVATAR DROPDOWN MENU TOGGLE
+
+userAvatar.addEventListener('click', function(){
+    const dropDown = document.getElementById('profile-dropdown')
+    if (dropDown){
+        dropDown.classList.toggle('hidden')
+    }
+})
+
+
+// AUTHENTICATION GUARD: Redirect to signin page if user is not authenticated
+onAuthStateChanged(auth, async (loggedInUser) => {
+    if (!loggedInUser) {
+        window.location.href = "./../index.html";
         return;
     }
 
-    // User is authenticated - proceed to load exams
-    console.log('User authenticated:', user.uid);
+    // Load exams from firestore after confirming user is authenticated
+    await loadExams();
 
-    // Set user avatar (first letter of email)
-    const firstLetter = user.email ? user.email.charAt(0).toUpperCase() : 'U';
+
+    try {
+        const uid = loggedInUser.uid;
+
+        // ---- PROFILE ----
+        const userSnap = await getDoc(doc(db, "users", uid));
+        const userData = userSnap.exists() ? userSnap.data() : {};
+        const fullName = userData.fullname || "Student";
+        const email = userData.email || loggedInUser.email;
+        
+          const firstLetter = userData.email ? userData.email.charAt(0).toUpperCase() : 'U';
     userAvatar.textContent = firstLetter;
 
-    // Load exams from Firestore
-    await loadExams();
+
+  
+// Close dropdown on outside click
+document.addEventListener('click', e => {
+    if (userAvatar && !userAvatar.contains(e.target)) {
+        const dropDown = document.getElementById('profile-dropdown');
+        if (dropDown) {
+            dropDown.classList.add('hidden');
+        }
+    }
 });
+
+        
+        updateElementText('welcome-name', fullName);
+        updateElementText('user-name', fullName);
+        updateElementText('dropdown-user-name', fullName);
+        updateElementText('dropdown-user-email', email);
+        updateElementText('mobile-user-name', fullName);
+        updateElementText('mobile-user-email', email);
+   
+
+
+    } catch (err) {
+        console.error("Error loading dashboard:", err);
+    }
+});
+
+
+
+
 
 
 // FETCHING EXAMS FROM FIRESTORE
@@ -248,3 +298,34 @@ toggleBtn.addEventListener('click', () => {
 if (localStorage.getItem('theme') === 'dark') {
     document.documentElement.classList.add('dark');
 }
+
+
+
+// Dropdown Logout Btn
+async function dashBoardLogOutBtn() {
+    try {
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#2e8ff7",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, log out",
+            cancelButtonText: "Cancel"
+        });
+        if (result.isConfirmed) {
+            await signOut(auth);
+            window.location.href = "../index.html";
+        }
+    } catch (err) {
+         console.error(err);
+          Swal.fire({
+            icon:"error",
+            title:"Error",
+            text:"Failed to logout. Try again."
+        }); }
+}
+
+let dropdownlogBtn = document.getElementById('logout-btn');
+if (dropdownlogBtn) dropdownlogBtn.addEventListener('click', dashBoardLogOutBtn);

@@ -40,8 +40,26 @@ toggleBtn.addEventListener('click', () => {
     }
 });
 
-// AUTH GUARD
+// Helper to update element text
+function updateElementText(id, text) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = text;
+}
+
+
+//AVATAR DROPDOWN MENU TOGGLE
 const userAvatar = document.getElementById("user-avatar");
+
+userAvatar.addEventListener('click', function(){
+    const dropDown = document.getElementById('profile-dropdown')
+    if (dropDown){
+        dropDown.classList.toggle('hidden')
+    }
+})
+
+
+
+
 const userNameAvatar = document.getElementById('userName-avatar');
 const fullNameInput = document.getElementById("full-name");
 
@@ -91,19 +109,58 @@ if (passwordChanged === "true") {
     window.history.replaceState({}, "", url);
 }
 
-onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-        window.location.href = "../OtherPages/login.html?redirect=profile";
+
+
+
+// AUTHENTICATION GUARD: Redirect to signin page if user is not authenticated
+onAuthStateChanged(auth, async (loggedInUser) => {
+    if (!loggedInUser) {
+        window.location.href = "./../index.html";
         return;
     }
 
-    // Set initial avatar from email if no name yet
-    userAvatar.textContent = user.email ? user.email.charAt(0).toUpperCase() : "U";
-    userNameAvatar.textContent = user.email ? user.email.charAt(0).toUpperCase() : "U";
 
-    // Load user data
-    await loadUserData(user);
+    try {
+        const uid = loggedInUser.uid;
+
+        // ---- PROFILE ----
+        const userSnap = await getDoc(doc(db, "users", uid));
+        const userData = userSnap.exists() ? userSnap.data() : {};
+        const fullName = userData.fullname || "Student";
+        const email = userData.email || loggedInUser.email;
+        
+          const firstLetter = userData.email ? userData.email.charAt(0).toUpperCase() : 'U';
+    userAvatar.textContent = firstLetter;
+
+
+  
+// Close dropdown on outside click
+document.addEventListener('click', e => {
+    if (userAvatar && !userAvatar.contains(e.target)) {
+        const dropDown = document.getElementById('profile-dropdown');
+        if (dropDown) {
+            dropDown.classList.add('hidden');
+        }
+    }
 });
+
+        updateElementText('welcome-name', fullName);
+        updateElementText('user-name', fullName);
+        updateElementText('dropdown-user-name', fullName);
+        updateElementText('dropdown-user-email', email);
+        updateElementText('mobile-user-name', fullName);
+        updateElementText('mobile-user-email', email);
+   
+    await loadUserData(userData);
+
+
+
+    } catch (err) {
+        console.error("Error loading dashboard:", err);
+    }
+});
+
+
 
 // PASSWORD TOGGLE
 function setupPasswordToggle(toggleId, inputId) {

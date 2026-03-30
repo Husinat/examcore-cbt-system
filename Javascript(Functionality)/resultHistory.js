@@ -43,6 +43,28 @@ toggleBtn.addEventListener('click', () => {
         moonIcon.classList.remove('hidden');
     }
 });
+const logoLink = document.getElementById('logoLink')
+
+logoLink.addEventListener('click', e => {
+  e.preventDefault();
+});
+logoLink.classList.toggle('cursor-not-allowed', true);
+
+
+// Helper to update element text
+function updateElementText(id, text) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = text;
+}
+
+//AVATAR DROPDOWN MENU TOGGLE
+export const userAvatar = document.getElementById('user-avatar');
+userAvatar.addEventListener('click', function(){
+    const dropDown = document.getElementById('profile-dropdown')
+    if (dropDown){
+        dropDown.classList.toggle('hidden')
+    }
+})
 
 
 // GLOBAL PAGINATION 
@@ -57,17 +79,52 @@ const nextBtn = document.getElementById("next-page");
 const pageInfo = document.getElementById("page-info");
 
 
-//  AUTH GUARD ==
-onAuthStateChanged(auth, (user) => {
-    if (!user) {
-        window.location.href = "../index.html";
+
+// AUTHENTICATION GUARD: Redirect to signin page if user is not authenticated
+onAuthStateChanged(auth, async (loggedInUser) => {
+    if (!loggedInUser) {
+        window.location.href = "./../index.html";
         return;
     }
 
-    document.getElementById("user-avatar").textContent =
-        user.email ? user.email.charAt(0).toUpperCase() : "U";
 
-    fetchResults(user.uid);
+    try {
+        const uid = loggedInUser.uid;
+
+        // ---- PROFILE ----
+        const userSnap = await getDoc(doc(db, "users", uid));
+        const userData = userSnap.exists() ? userSnap.data() : {};
+        const fullName = userData.fullname || "Student";
+        const email = userData.email || loggedInUser.email;
+        
+          const firstLetter = userData.email ? userData.email.charAt(0).toUpperCase() : 'U';
+    userAvatar.textContent = firstLetter;
+
+
+  
+// Close dropdown on outside click
+document.addEventListener('click', e => {
+    if (userAvatar && !userAvatar.contains(e.target)) {
+        const dropDown = document.getElementById('profile-dropdown');
+        if (dropDown) {
+            dropDown.classList.add('hidden');
+        }
+    }
+});
+
+        
+        updateElementText('welcome-name', fullName);
+        updateElementText('user-name', fullName);
+        updateElementText('dropdown-user-name', fullName);
+        updateElementText('dropdown-user-email', email);
+        updateElementText('mobile-user-name', fullName);
+        updateElementText('mobile-user-email', email);
+   
+          await fetchResults(uid);
+
+    } catch (err) {
+        console.error("Error loading dashboard:", err);
+    }
 });
 
 
@@ -97,7 +154,7 @@ async function fetchResults(uid) {
 }
 
 
-//  DISPLAY RESULTS \
+//  DISPLAY RESULTS
 async function displayResults(results) {
     resultsContainer.innerHTML = "";
 
@@ -223,3 +280,33 @@ nextBtn.addEventListener("click", () => {
         updatePagination();
     }
 });
+
+
+// Dropdown Logout Btn
+ async function dashBoardLogOutBtn() {
+    try {
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#2e8ff7",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, log out",
+            cancelButtonText: "Cancel"
+        });
+        if (result.isConfirmed) {
+            await signOut(auth);
+            window.location.href = "../index.html";
+        }
+    } catch (err) {
+         console.error(err);
+          Swal.fire({
+            icon:"error",
+            title:"Error",
+            text:"Failed to logout. Try again."
+        }); }
+}
+
+let dropdownlogBtn = document.getElementById('logout-btn');
+if (dropdownlogBtn) dropdownlogBtn.addEventListener('click', dashBoardLogOutBtn);

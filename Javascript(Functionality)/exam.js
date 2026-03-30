@@ -219,6 +219,15 @@ const prevBtn = document.getElementById("prev-btn");
 const nextBtn = document.getElementById("next-btn");
 const submitExamBtn = document.getElementById("submit-exam-btn");
 
+
+
+const logoLink = document.getElementById("logoLink");
+logoLink.addEventListener('click', e => {
+  e.preventDefault();
+});
+logoLink.classList.toggle('cursor-not-allowed', true);
+
+
 function updateNavButtons() {
     prevBtn.disabled = currentQuestionIndex === 0;
     nextBtn.disabled = currentQuestionIndex === questions.length-1;
@@ -232,8 +241,18 @@ function updateNavButtons() {
     nextBtn.classList.toggle('cursor-not-allowed', nextBtn.disabled);
 }
 
-prevBtn.addEventListener("click", ()=>{currentQuestionIndex--; displayQuestion(); updateNavButtons(); updateQuestionNavigator();});
-nextBtn.addEventListener("click", ()=>{currentQuestionIndex++; displayQuestion(); updateNavButtons(); updateQuestionNavigator();});
+prevBtn.addEventListener("click", ()=>{
+currentQuestionIndex--; 
+displayQuestion(); 
+updateNavButtons();
+ updateQuestionNavigator();
+});
+nextBtn.addEventListener("click", ()=>{
+    currentQuestionIndex++; 
+      displayQuestion();
+     updateNavButtons();
+      updateQuestionNavigator();
+    });
 
 //  QUESTION NAV 
 function renderQuestionNavigator() {
@@ -243,11 +262,16 @@ function renderQuestionNavigator() {
         const btn = document.createElement("button");
         btn.textContent = idx+1;
         btn.className = `question-nav-btn h-10 border-2 rounded-lg text-sm font-medium transition-colors`;
-        if(idx===currentQuestionIndex) btn.classList.add("bg-blue-600","text-white","border-blue-400");
-        else btn.classList.add("border-slate-300","dark:border-slate-700","bg-white","dark:bg-slate-900","text-slate-700","dark:text-slate-300");
+        if(idx===currentQuestionIndex){
+             btn.classList.add("bg-blue-600","text-white","border-blue-400");
+
+         } else btn.classList.add("border-slate-300","dark:border-slate-700","bg-white","dark:bg-slate-900","text-slate-700","dark:text-slate-300");
 
         btn.addEventListener("click", ()=>{
-            currentQuestionIndex=idx; displayQuestion(); updateNavButtons(); updateQuestionNavigator();
+            currentQuestionIndex=idx; 
+            displayQuestion(); 
+            updateNavButtons(); 
+            updateQuestionNavigator();
         });
         grid.appendChild(btn);
     });
@@ -258,9 +282,13 @@ function updateQuestionNavigator() {
     Array.from(grid.children).forEach((btn,idx)=>{
         const q = questions[idx];
         btn.className = `question-nav-btn h-10 border-2 rounded-lg text-sm font-medium transition-colors`;
-        if(idx===currentQuestionIndex) btn.classList.add("border-brand-600","bg-brand-50");
-        else if(q.selectedOption) btn.classList.add("border-transparent","bg-green-600","text-white");
-        else btn.classList.add("border-slate-300","dark:border-slate-700","bg-white","dark:bg-slate-900","text-slate-700","dark:text-slate-300");
+        if(idx===currentQuestionIndex) {
+            btn.classList.add("border-brand-600","bg-brand-50");
+        
+        }else if(q.selectedOption) {
+            btn.classList.add("border-transparent","bg-green-600","text-white");
+        
+        }else btn.classList.add("border-slate-300","dark:border-slate-700","bg-white","dark:bg-slate-900","text-slate-700","dark:text-slate-300");
     });
 }
 

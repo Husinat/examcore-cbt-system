@@ -46,6 +46,25 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 
+const logoLink = document.getElementById('logoLink');
+logoLink.addEventListener('click', e => {
+  e.preventDefault();
+});
+logoLink.classList.toggle('cursor-not-allowed', true);
+
+const adminAvatar = document.getElementById('admin-avatar');
+adminAvatar.addEventListener('click', e => {
+const dropdown = document.getElementById('admin-dropdown');
+if (dropdown){
+    dropdown.classList.toggle('hidden');
+}
+});
+
+
+
+
+
+
 // UPDATING ADMIN AVATAR
 // HELPERS
 function updateElementText(id, text) {
@@ -96,6 +115,19 @@ onAuthStateChanged(auth, async (user) => {
        const userFullName = userData.fullname || user.email || "Admin";
        const initials = getInitials(userFullName);
        updateElementText("admin-avatar", initials);
+        const fullName = userData.fullname || "Admin";
+        const email = userData.email || user.email;
+
+        // Desktop
+        updateElementText("admin-name", fullName);
+        updateElementText("dropdown-admin-name", fullName);
+        updateElementText("dropdown-admin-email", email);
+        updateElementText("admin-avatar", initials);
+
+        // Mobile
+        updateElementText("mobile-admin-name", fullName);
+        updateElementText("mobile-admin-email", email);
+        updateElementText("mobile-admin-avatar", initials);
          
     } catch (err) {
         console.error("Error checking admin status:", err);
@@ -299,7 +331,8 @@ function renderResults() {
                             <p class="text-slate-600 dark:text-slate-400"><span class="font-medium">Score:</span> ${score} / ${totalQuestions}</p>
                             <p class="text-slate-600 dark:text-slate-400"><span class="font-medium">Date:</span> ${formattedDate}</p>
                         </div>
-                        <div class="flex gap-2 pt-2">
+
+                        <div class="flex gap-10 pt-2">
                             <button onclick="viewDetails('${result.id}')" class="flex-1 py-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-lg transition-colors">
                                 View Details
                             </button>
@@ -307,6 +340,7 @@ function renderResults() {
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
+                        
                     </div>
 
                     <!-- DESKTOP VIEW -->
@@ -491,3 +525,34 @@ window.viewDetails = (resultId) => {
         }
     });
 };
+
+
+
+// Dropdown Logout Btn
+async function dashBoardLogOutBtn() {
+    try {
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#2e8ff7",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, log out",
+            cancelButtonText: "Cancel"
+        });
+        if (result.isConfirmed) {
+            await signOut(auth);
+            window.location.href = "../index.html";
+        }
+    } catch (err) {
+         console.error(err);
+          Swal.fire({
+            icon:"error",
+            title:"Error",
+            text:"Failed to logout. Try again."
+        }); }
+}
+
+let dropdownlogBtn = document.getElementById('logout-btn');
+if (dropdownlogBtn) dropdownlogBtn.addEventListener('click', dashBoardLogOutBtn);

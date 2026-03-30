@@ -37,27 +37,89 @@ const firebaseConfig = {
     appId: "1:69753766233:web:2105b3871aa982e3828c48"
 };
 
+const logoLink = document.getElementById("logoLink");
+logoLink.addEventListener('click', e => {
+    e.preventDefault();
+});
+logoLink.classList.toggle('cursor-not-allowed', true);
+
 // Init Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Avatar & Auth Guard
+
+
+
+// Helper to update element text
+function updateElementText(id, text) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = text;
+}
+
+//AVATAR DROPDOWN MENU TOGGLE
 const userAvatar = document.getElementById('user-avatar');
-onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-        window.location.href = '../index.html';
+
+userAvatar.addEventListener('click', function(){
+    const dropDown = document.getElementById('profile-dropdown')
+    if (dropDown){
+        dropDown.classList.toggle('hidden')
+    }
+})
+
+
+// AUTHENTICATION GUARD: Redirect to signin page if user is not authenticated
+onAuthStateChanged(auth, async (loggedInUser) => {
+    if (!loggedInUser) {
+        window.location.href = "./../index.html";
         return;
     }
 
-    // Set initials from displayName or email
-    const name = user.displayName || user.email || 'User';
-    const initials = name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
-    userAvatar.textContent = initials;
+    // Load exams from firestore after confirming user is authenticated
+    await loadResults();
 
-    // Load results after authentication
-    loadResults();
+
+    try {
+        const uid = loggedInUser.uid;
+
+        // ---- PROFILE ----
+        const userSnap = await getDoc(doc(db, "users", uid));
+        const userData = userSnap.exists() ? userSnap.data() : {};
+        const fullName = userData.fullname || "Student";
+        const email = userData.email || loggedInUser.email;
+        
+          const firstLetter = userData.email ? userData.email.charAt(0).toUpperCase() : 'U';
+    userAvatar.textContent = firstLetter;
+
+
+  
+// Close dropdown on outside click
+document.addEventListener('click', e => {
+    if (userAvatar && !userAvatar.contains(e.target)) {
+        const dropDown = document.getElementById('profile-dropdown');
+        if (dropDown) {
+            dropDown.classList.add('hidden');
+        }
+    }
 });
+
+        
+        updateElementText('welcome-name', fullName);
+        updateElementText('user-name', fullName);
+        updateElementText('dropdown-user-name', fullName);
+        updateElementText('dropdown-user-email', email);
+        updateElementText('mobile-user-name', fullName);
+        updateElementText('mobile-user-email', email);
+   
+
+
+    } catch (err) {
+        console.error("Error loading dashboard:", err);
+    }
+});
+
+
+
 
 // Load results
 async function loadResults() {
@@ -144,3 +206,38 @@ if (retakeBtn) {
         window.location.href = './availableExams.html';
     });
 }
+
+
+
+
+
+
+// Dropdown Logout Btn
+//
+async function dashBoardLogOutBtn() {
+    try {
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#2e8ff7",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, log out",
+            cancelButtonText: "Cancel"
+        });
+        if (result.isConfirmed) {
+            await signOut(auth);
+            window.location.href = "../index.html";
+        }
+    } catch (err) {
+         console.error(err);
+          Swal.fire({
+            icon:"error",
+            title:"Error",
+            text:"Failed to logout. Try again."
+        }); }
+}
+
+let dropdownlogBtn = document.getElementById('logout-btn');
+if (dropdownlogBtn) dropdownlogBtn.addEventListener('click', dashBoardLogOutBtn);

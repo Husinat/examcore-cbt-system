@@ -45,6 +45,13 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 
+const logoLink = document.getElementById("logoLink");
+logoLink.addEventListener('click', e => {
+  e.preventDefault();
+});
+logoLink.classList.toggle('cursor-not-allowed', true);
+
+
 // HELPERS
 function updateElementText(id, text) {
     const el = document.getElementById(id);
@@ -56,6 +63,27 @@ function getInitials(fullName) {
     const parts = fullName.trim().split(" ");
     return parts[0].charAt(0).toUpperCase() + (parts[1] ? parts[1].charAt(0).toUpperCase() : "");
 }
+
+// Dropdown Menu
+const adminAvatar = document.getElementById('admin-avatar');
+adminAvatar.addEventListener('click', e => {
+const dropdown = document.getElementById('admin-dropdown');
+if (dropdown){
+    dropdown.classList.toggle('hidden');
+}
+});
+
+// Close dropdown on outside click
+document.addEventListener('click', e => {
+    if (adminAvatar && !adminAvatar.contains(e.target)) {
+        const dropDown = document.getElementById('admin-dropdown');
+        if (dropDown) {
+            dropDown.classList.add('hidden');
+        }
+    }
+});
+
+
 
 
 // ADMIN AUTH GUARD
@@ -78,6 +106,20 @@ onAuthStateChanged(auth, async (user) => {
        const userFullName = userData.fullname || user.email || "Admin";
        const initials = getInitials(userFullName);
        updateElementText("admin-avatar", initials);
+        const fullName = userData.fullname || "Admin";
+        const email = userData.email || user.email;
+
+        // Desktop
+        updateElementText("admin-name", fullName);
+        updateElementText("dropdown-admin-name", fullName);
+        updateElementText("dropdown-admin-email", email);
+        updateElementText("admin-avatar", initials);
+
+        // Mobile
+        updateElementText("mobile-admin-name", fullName);
+        updateElementText("mobile-admin-email", email);
+        updateElementText("mobile-admin-avatar", initials);
+         
 
 
          
@@ -85,6 +127,11 @@ onAuthStateChanged(auth, async (user) => {
         console.error("Error checking admin status:", err);
     }
 });
+
+
+
+
+
 
 const loadingState = document.getElementById('loading-state');
 const emptyState = document.getElementById('empty-state');
@@ -197,3 +244,35 @@ loadExams();
 document.getElementById('retry-btn')?.addEventListener('click', () => {
 pageLoader;
 });
+
+
+
+
+// Dropdown Logout Btn
+async function dashBoardLogOutBtn() {
+    try {
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#2e8ff7",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, log out",
+            cancelButtonText: "Cancel"
+        });
+        if (result.isConfirmed) {
+            await signOut(auth);
+            window.location.href = "../index.html";
+        }
+    } catch (err) {
+         console.error(err);
+          Swal.fire({
+            icon:"error",
+            title:"Error",
+            text:"Failed to logout. Try again."
+        }); }
+}
+
+let dropdownlogBtn = document.getElementById('logout-btn');
+if (dropdownlogBtn) dropdownlogBtn.addEventListener('click', dashBoardLogOutBtn);

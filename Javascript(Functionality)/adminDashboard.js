@@ -1,4 +1,4 @@
- // Theme Switcher (Light and Dark Mode)
+// Theme Switcher (Light and Dark Mode)
 let toggleBtn = document.getElementById('theme-toggle');
 
 toggleBtn.addEventListener('click', () => {
@@ -31,26 +31,26 @@ if (hamburgerBtn) {
     });
 }
 
-        // Sidebar toggle (mobile)
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebar-overlay');
-        const openSidebarBtn = document.getElementById('open-sidebar');
-        const closeSidebarBtn = document.getElementById('close-sidebar');
+// Sidebar toggle (mobile)
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebar-overlay');
+const openSidebarBtn = document.getElementById('open-sidebar');
+const closeSidebarBtn = document.getElementById('close-sidebar');
 
-        openSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.remove('-translate-x-full');
-            sidebarOverlay.classList.remove('hidden');
-        });
+openSidebarBtn.addEventListener('click', () => {
+    sidebar.classList.remove('-translate-x-full');
+    sidebarOverlay.classList.remove('hidden');
+});
 
-        closeSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.add('-translate-x-full');
-            sidebarOverlay.classList.add('hidden');
-        });
+closeSidebarBtn.addEventListener('click', () => {
+    sidebar.classList.add('-translate-x-full');
+    sidebarOverlay.classList.add('hidden');
+});
 
-        sidebarOverlay.addEventListener('click', () => {
-            sidebar.classList.add('-translate-x-full');
-            sidebarOverlay.classList.add('hidden');
-        });
+sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.add('-translate-x-full');
+    sidebarOverlay.classList.add('hidden');
+});
 
 
 
@@ -58,7 +58,8 @@ if (hamburgerBtn) {
 // Firebase imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, collection, query, where, getDocs, orderBy, limit } 
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 // Firebase config
 const firebaseConfig = {
@@ -86,7 +87,7 @@ function getInitials(fullName) {
     if (!fullName) return "👤";
     const parts = fullName.trim().split(" ");
     return parts[0].charAt(0).toUpperCase() +
-           (parts[1] ? parts[1].charAt(0).toUpperCase() : "");
+        (parts[1] ? parts[1].charAt(0).toUpperCase() : "");
 }
 
 
@@ -100,9 +101,9 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     try {
-        const userDocRef = doc(dataBase, "users", user.uid); 
+        const userDocRef = doc(dataBase, "users", user.uid);
         const userSnap = await getDoc(userDocRef);
-        
+
 
         if (!userSnap.exists()) {
             window.location.href = "../index.html";
@@ -118,134 +119,134 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-//  LOAD TOTAL STUDENTS
-async function loadTotalStudents() {
-    try {
-        const usersRef = collection(dataBase, "users");
-        const studentQuery = query(usersRef, where("role", "==", "student"));
-        const querySnapshot = await getDocs(studentQuery);
+        //  LOAD TOTAL STUDENTS
+        async function loadTotalStudents() {
+            try {
+                const usersRef = collection(dataBase, "users");
+                const studentQuery = query(usersRef, where("role", "==", "student"));
+                const querySnapshot = await getDocs(studentQuery);
 
-        const totalStudents = querySnapshot.size;
+                const totalStudents = querySnapshot.size;
 
-        updateElementText("total-students", totalStudents);
+                updateElementText("total-students", totalStudents);
 
-    } catch (error) {
-Swal.fire({
-    icon: 'error',
-    title: 'Oops...',
-    text: 'Failed to load total students!',
-});
-console.error("Error loading total students:", error);
-    }
-}
-
-loadTotalStudents();
-
-
-
-
-// LOAD TOTAL EXAMS
-async function loadTotalExams() {
-    try {
-        const examsRef = collection(dataBase, "Exams");
-        const querySnapshot = await getDocs(examsRef);
-
-        const totalExams = querySnapshot.size;
-
-        updateElementText("total-exams", totalExams);
-
-    } catch (error) {
-        console.error("Error loading total exams:", error);
-        Swal.fire({
-    icon: 'error',
-    title: 'Oops...',
-    text: 'Failed to load total exams!',
-});
-    }
-}
-
-loadTotalExams();
-
-
-// LOAD TOTAL SUBMISSIONS
-async function totalSubmission()  {
-    try {
-   const totalSubRef = collection(dataBase, 'ExamResults');
-     const querySnapshot = await getDocs(totalSubRef);
-
-      const totalSubmissions = querySnapshot.size;
-      updateElementText("total-submissions", totalSubmissions)
-    } catch (error) {
-        console.error("Error loading total exams:", error);
-        Swal.fire({
-    icon: 'error',
-    title: 'Oops...',
-    text: 'Failed to load total submissions!',
-});
-        
-    }
-}    
-totalSubmission();
-
-
-
-// LOAD AVERAGE SCORE (percentage based)
-async function averageScore() {
-  try {
-    const examResults = collection(dataBase, 'ExamResults');
-    const querySnapshot = await getDocs(examResults);
-
-    let totalPercentage = 0;
-    let count = 0;
-
-    querySnapshot.forEach((doc) => {
-        const data = doc.data();
-
-        if (data.score !== undefined && data.totalQuestions) {
-            const percentage = (data.score / data.totalQuestions) * 100;
-            totalPercentage += percentage;
-            count++;
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Failed to load total students!',
+                });
+                console.error("Error loading total students:", error);
+            }
         }
-    });
 
-    let average = 0;
-    if (count > 0) {
-        average = totalPercentage / count;
-    }
+        loadTotalStudents();
 
-    updateElementText("average-score", Math.floor(average));
 
-  } catch (error) {
-    console.error("Error calculating average score:", error);
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Failed to load average score!',
-    });
-  }
-}
-averageScore();
 
-console.log("Admin verified. Loading dashboard...");
 
-// ---- LOAD ADMIN PROFILE ----
-const fullName = userData.fullname || "Admin";
-const email = userData.email || user.email;
-const initials = getInitials(fullName);
+        // LOAD TOTAL EXAMS
+        async function loadTotalExams() {
+            try {
+                const examsRef = collection(dataBase, "Exams");
+                const querySnapshot = await getDocs(examsRef);
 
-// Desktop
-updateElementText("admin-name", fullName);
-updateElementText("dropdown-admin-name", fullName);
-updateElementText("dropdown-admin-email", email);
-updateElementText("admin-avatar", initials);
+                const totalExams = querySnapshot.size;
 
-// Mobile
-updateElementText("mobile-admin-name", fullName);
-updateElementText("mobile-admin-email", email);
-updateElementText("mobile-admin-avatar", initials);
+                updateElementText("total-exams", totalExams);
+
+            } catch (error) {
+                console.error("Error loading total exams:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Failed to load total exams!',
+                });
+            }
+        }
+
+        loadTotalExams();
+
+
+        // LOAD TOTAL SUBMISSIONS
+        async function totalSubmission() {
+            try {
+                const totalSubRef = collection(dataBase, 'ExamResults');
+                const querySnapshot = await getDocs(totalSubRef);
+
+                const totalSubmissions = querySnapshot.size;
+                updateElementText("total-submissions", totalSubmissions)
+            } catch (error) {
+                console.error("Error loading total exams:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Failed to load total submissions!',
+                });
+
+            }
+        }
+        totalSubmission();
+
+
+
+        // LOAD AVERAGE SCORE (percentage based)
+        async function averageScore() {
+            try {
+                const examResults = collection(dataBase, 'ExamResults');
+                const querySnapshot = await getDocs(examResults);
+
+                let totalPercentage = 0;
+                let count = 0;
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+
+                    if (data.score !== undefined && data.totalQuestions) {
+                        const percentage = (data.score / data.totalQuestions) * 100;
+                        totalPercentage += percentage;
+                        count++;
+                    }
+                });
+
+                let average = 0;
+                if (count > 0) {
+                    average = totalPercentage / count;
+                }
+
+                updateElementText("average-score", Math.floor(average));
+
+            } catch (error) {
+                console.error("Error calculating average score:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Failed to load average score!',
+                });
+            }
+        }
+        averageScore();
+
+        console.log("Admin verified. Loading dashboard...");
+
+        // ---- LOAD ADMIN PROFILE ----
+        const fullName = userData.fullname || "Admin";
+        const email = userData.email || user.email;
+        const initials = getInitials(fullName);
+
+        // Desktop
+        updateElementText("admin-name", fullName);
+        updateElementText("dropdown-admin-name", fullName);
+        updateElementText("dropdown-admin-email", email);
+        updateElementText("admin-avatar", initials);
+
+        // Mobile
+        updateElementText("mobile-admin-name", fullName);
+        updateElementText("mobile-admin-email", email);
+        updateElementText("mobile-admin-avatar", initials);
 
     } catch (error) {
-          Swal.fire({
+        Swal.fire({
             icon: 'error',
             title: 'Error verifying Admin...',
             text: 'Failed to load recent submissions!',
@@ -254,28 +255,24 @@ updateElementText("mobile-admin-avatar", initials);
         // window.location.href = "../index.html";
     }
 
-    
+
 });
 
-// LOAD RECENT SUBMISSIONS (RESPONSIVE)
-async function loadRecentSubmissions(limit = 5) {
+// LOAD RECENT SUBMISSIONS 
+async function loadRecentSubmissions(limitCount = 5) {
     try {
-        const submissionsRef = collection(dataBase, "ExamResults");
-        const submissionsSnapshot = await getDocs(submissionsRef);
+  const q = query(
+    collection(dataBase, "ExamResults"),
+    orderBy("timestamp", "desc"),
+    limit(limitCount)
+);
 
-        let submissions = [];
-        submissionsSnapshot.forEach(doc => {
-            submissions.push({ id: doc.id, ...doc.data() });
-        });
+const submissionsSnapshot = await getDocs(q);
 
-        // Sort using Firestore timestamp properly
-        submissions.sort((a, b) => {
-            if (!a.timestamp || !b.timestamp) return 0;
-            return b.timestamp.toDate() - a.timestamp.toDate();
-        });
-
-        submissions = submissions.slice(0, limit);
-
+let submissions = [];
+submissionsSnapshot.forEach(doc => {
+    submissions.push({ id: doc.id, ...doc.data() });
+});
         const tbody = document.getElementById("submissions-table");
         tbody.innerHTML = "";
 
@@ -288,7 +285,7 @@ async function loadRecentSubmissions(limit = 5) {
             const userName = userSnap.exists() ? userSnap.data().fullname : "Unknown Student";
             const examTitle = examSnap.exists() ? examSnap.data().title : "Unknown Exam";
 
-            
+
             let percentage = "--";
             let scoreClass = "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400";
 
@@ -305,7 +302,7 @@ async function loadRecentSubmissions(limit = 5) {
                 }
             }
 
-          
+
             const formattedDate = sub.timestamp
                 ? sub.timestamp.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                 : "--";
@@ -396,14 +393,15 @@ async function dashBoardLogOutBtn() {
             await signOut(auth);
             window.location.href = "../index.html";
         }
-    } catch (err) { 
-    console.error(err);
-   Swal.fire({
-    icon:"error",
-    title:"Error",
-    text:"Failed to logout. Try again."
-}); 
-}}
+    } catch (err) {
+        console.error(err);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to logout. Try again."
+        });
+    }
+}
 
-document.getElementById("nav-logout").addEventListener("click", dashBoardLogOutBtn);    
+document.getElementById("nav-logout").addEventListener("click", dashBoardLogOutBtn);
 document.getElementById("logout-btn").addEventListener("click", dashBoardLogOutBtn);
